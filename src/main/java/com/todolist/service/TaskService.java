@@ -25,4 +25,18 @@ public class TaskService {
         taskRepository.save(task);
         return taskDTO;
     }
+
+    public TaskDTO editTask(TaskDTO taskDTO, Long idTask){
+        Task task = taskRepository.findByIdTask(idTask);
+        task.setPriorityTask(taskDTO.getPriorityTask());
+        task.setDescription(taskDTO.getDescription());
+        task.setDateTime(LocalDateTime.now());
+        taskRepository.save(task);
+        return TaskMapper.mapToDTO(task);
+    }
+
+    public void deleteTask(Long idTask) {
+        Task task = taskRepository.findByIdTask(idTask);
+        taskRepository.delete(task);
+    }
 }

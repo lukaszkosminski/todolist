@@ -15,7 +15,7 @@ public class TaskMapper {
 
     public static TaskDTO mapToDTO(Task task) {
         TaskDTO taskDTO = new TaskDTO();
-        taskDTO.setTitle(taskDTO.getTitle());
+        taskDTO.setTitle(task.getTitle());
         taskDTO.setDescription(task.getDescription());
         taskDTO.setPriorityTask(task.getPriorityTask());
         return taskDTO;
