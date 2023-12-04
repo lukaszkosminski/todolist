@@ -21,13 +21,13 @@ public class TaskController {
         return taskService.saveTask(taskDTO);
     }
 
-    @PutMapping("api/user/edit-task/{id}")
-    public TaskDTO editTask(@RequestBody TaskDTO taskDTO, @PathVariable Long idTask){
+    @PutMapping("api/user/edit-task/{idTask}")
+    public TaskDTO editTask(@RequestBody TaskDTO taskDTO, @PathVariable Long idTask) throws Exception {
         return taskService.editTask(taskDTO, idTask);
     }
 
-    @DeleteMapping("api/user/delete-task/{id}")
-    public void deleteTask(@PathVariable Long idTask){
+    @DeleteMapping("api/user/delete-task/{idTask}")
+    public void deleteTask(@PathVariable Long idTask) throws Exception {
         taskService.deleteTask(idTask);
     }
 

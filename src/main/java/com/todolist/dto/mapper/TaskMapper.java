@@ -10,6 +10,7 @@ public class TaskMapper {
         task.setPriorityTask(taskDTO.getPriorityTask());
         task.setDescription(taskDTO.getDescription());
         task.setTitle(taskDTO.getTitle());
+        task.setIsCompleted(taskDTO.getIsCompleted());
         return task;
     }
 
@@ -18,6 +19,7 @@ public class TaskMapper {
         taskDTO.setTitle(task.getTitle());
         taskDTO.setDescription(task.getDescription());
         taskDTO.setPriorityTask(task.getPriorityTask());
+        taskDTO.setIsCompleted(task.getIsCompleted());
         return taskDTO;
     }
 }
