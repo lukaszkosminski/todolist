@@ -10,14 +10,16 @@ public class TaskMapper {
         task.setPriorityTask(taskDTO.getPriorityTask());
         task.setDescription(taskDTO.getDescription());
         task.setTitle(taskDTO.getTitle());
+        task.setIsCompleted(taskDTO.getIsCompleted());
         return task;
     }
 
     public static TaskDTO mapToDTO(Task task) {
         TaskDTO taskDTO = new TaskDTO();
-        taskDTO.setTitle(taskDTO.getTitle());
+        taskDTO.setTitle(task.getTitle());
         taskDTO.setDescription(task.getDescription());
         taskDTO.setPriorityTask(task.getPriorityTask());
+        taskDTO.setIsCompleted(task.getIsCompleted());
         return taskDTO;
     }
 }

@@ -20,6 +20,7 @@ public class Task {
     private String description;
     private LocalDateTime dateTime;
     private String title;
+    private Boolean isCompleted;
 
 
 }
