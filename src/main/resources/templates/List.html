@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
     <div class="sidebar">
@@ -50,22 +50,18 @@
         </ul>
     </div>
     <main>
+        <header>
+            <div class="hello">
+                <h1>Welcome. You are logged in</h1>
+            </div>
+            <a>Add task</a>
+        </header>
+        <nav>
+            <a>Completed</a>
+            <a>In-Progres</a>
+            <a>ToDo</a>
+        </nav>
         <div class="content">
-            <form method="post" autocomplete="off">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Username" name="userName" required>
-                    <img src="/css/image/user.svg" width="30px">
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" name="password" required>
-                    <img src="/css/image/lock.svg" width="30px">
-                </div>
-                <button type="submit" class="btn">Login</button>
-                <div class="register-link">
-                    <p>Don't have an account? <a th:href="@{/register}">Register</a></p>
-                </div>
-            </form>
         </div>
     </main>
 </body>

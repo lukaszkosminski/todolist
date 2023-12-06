@@ -20,10 +20,22 @@ public class PageController {
     public String homePage(){
         return "home";
     }
+
+    @GetMapping("/list")
+    public String listPage(){
+        return "list";
+    }
+
     @GetMapping("/login")
     public String loginPage(){
         return "login";
     }
+
+    @GetMapping("/admin")
+    public String adminPage(){
+        return "admin";
+    }
+
 
     @GetMapping("/register")
     public String registerPage(){

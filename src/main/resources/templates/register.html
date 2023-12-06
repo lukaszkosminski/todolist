@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
+
     <div class="sidebar">
         <ul>
             <li>
@@ -16,15 +17,15 @@
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <span class="icon">L</span>
-                    <span class="text">List</span>
+                <a th:href="@{/list}">
+                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                    <span class="text">List after login</span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <span class="icon">L</span>
-                    <span class="text">Home</span>
+                <a th:href="@{/admin}">
+                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                    <span class="text">Admin</span>
                 </a>
             </li>
             <div class="bottom">
