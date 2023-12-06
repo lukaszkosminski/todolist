@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ToDoList</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/list.css">
     <link rel="stylesheet" href="/css/sidebar.css">
 </head>
 <body>
@@ -22,8 +22,14 @@
                 </a>
             </li>
             <li>
-                <a th:href="@{/admin}">
+                <a th:href="@{/list}">
                     <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                    <span class="text">Dodaj nową listę</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin}">
+                    <span class="icon"><img src="./css/image/list.svg" width="30px"></span>
                     <span class="text">Admin</span>
                 </a>
             </li>
@@ -51,17 +57,63 @@
     </div>
     <main>
         <header>
-            <div class="hello">
-                <h1>Welcome. You are logged in</h1>
+            <div class="listname">
+                <h1>ListName</h1>
             </div>
-            <a>Add task</a>
+            <div class="search">
+                <input type="text" placeholder="search">
+            </div>
+            <div class="addtask">
+                <button type="submit" class="btn">Add Task</button>
+            </div>
         </header>
-        <nav>
-            <a>Completed</a>
-            <a>In-Progres</a>
-            <a>ToDo</a>
-        </nav>
         <div class="content">
+            <div class="box">
+                <div class="header">
+                    <div class="status" style="
+                    background-color: #080bb1;">TO DO</div>
+                    <div class="counter">1</div>
+                </div>
+                <div class="task">
+                    <div class="title">tytuł</div>
+                    <div class="data">data</div>
+                    <div class="description">opis</div>
+                    <div class="id">id</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="header">
+                    <div class="status" style="
+                    background-color: #fcd12a;">IN_PROGRESS</div>
+                    <div class="counter">1</div>
+                </div>
+                <div class="task">
+                    <div class="title">tytuł</div>
+                    <div class="data">data</div>
+                    <div class="description">opis</div>
+                    <div class="id">id</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="header">
+                    <div class="status" style="
+                    background-color: #3cb043;">DONE</div>
+                    <div class="counter">1</div>
+                </div>
+                <div class="task">
+                    <div class="title">tytuł</div>
+                    <div class="data">data</div>
+                    <div class="description">opis</div>
+                    <div class="id">id</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="header">
+                    <div class="status" style="
+                    background-color: #ff2400;">CANCELED</div>
+                    <div class="counter">0</div>
+                </div>
+            </div>
         </div>
     </main>
 </body>
