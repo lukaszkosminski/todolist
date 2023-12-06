@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a th:href="@{/}">
+                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">L</span>
+                    <span class="text">List</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">L</span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <div class="bottom">
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
+                        <span class="text">Account</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
+                        <span class="text">Log Out</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/login}">
+                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
+                        <span class="text">Login</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </div>
+    <main>
+        <div class="content">
+            <form th:action="@{/register}" method="post" autocomplete="off">
+                <h1>Register</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Username" name="userName" required>
+                    <img src="/css/image/user.svg" width="30px">
+                </div>
+                <div class="input-box">
+                    <input type="text" placeholder="Email" name="email" required>
+                    <img src="/css/image/mail.svg" width="30px">
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Password" name="password" required>
+                    <img src="/css/image/lock.svg" width="30px">
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

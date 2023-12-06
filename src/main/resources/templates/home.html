@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a th:href="@{/}">
+                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                    <span class="text">List</span>
+                </a>
+            </li>
+            <div class="bottom">
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
+                        <span class="text">Account</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
+                        <span class="text">Log Out</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/login}">
+                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
+                        <span class="text">Login</span>
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </div>
+    <main>
+        <header>
+            <div class="hello">
+                <h1>Welcome back</h1>
+            </div>
+            <a>Add task</a>
+        </header>
+        <nav>
+            <a>Completed</a>
+            <a>In-Progres</a>
+            <a>ToDo</a>
+        </nav>
+        <div class="content">
+        </div>
+    </main>
+</body>
+</html>
