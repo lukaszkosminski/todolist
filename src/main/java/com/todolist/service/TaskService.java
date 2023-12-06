@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -24,5 +25,24 @@ public class TaskService {
         task.setDateTime(LocalDateTime.now());
         taskRepository.save(task);
         return taskDTO;
+    }
+
+    public TaskDTO editTask(TaskDTO taskDTO, Long idTask) throws Exception {
+        Optional<Task> taskOptional = taskRepository.findByIdTask(idTask);
+        Task task = getTaskOrThrow(taskOptional, idTask);
+        task.setPriorityTask(taskDTO.getPriorityTask());
+        task.setDescription(taskDTO.getDescription());
+        task.setDateTime(LocalDateTime.now());
+        taskRepository.save(task);
+        return TaskMapper.mapToDTO(task);
+    }
+
+    public void deleteTask(Long idTask) throws Exception {
+        Optional<Task> task = taskRepository.findByIdTask(idTask);
+        Task taskOrThrow = getTaskOrThrow(task,idTask);
+        taskRepository.delete(taskOrThrow);
+    }
+    private Task getTaskOrThrow(Optional<Task> taskOptional, Long idTask) throws Exception {
+         return taskOptional.orElseThrow(() -> new Exception("Task " + idTask + " not found"));
     }
 }

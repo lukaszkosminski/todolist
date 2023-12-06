@@ -3,9 +3,8 @@ package com.todolist.controller;
 import com.todolist.dto.TaskDTO;
 import com.todolist.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.config.Task;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TaskController {
@@ -21,4 +20,15 @@ public class TaskController {
     public TaskDTO createTask(@RequestBody TaskDTO taskDTO) {
         return taskService.saveTask(taskDTO);
     }
+
+    @PutMapping("api/user/edit-task/{idTask}")
+    public TaskDTO editTask(@RequestBody TaskDTO taskDTO, @PathVariable Long idTask) throws Exception {
+        return taskService.editTask(taskDTO, idTask);
+    }
+
+    @DeleteMapping("api/user/delete-task/{idTask}")
+    public void deleteTask(@PathVariable Long idTask) throws Exception {
+        taskService.deleteTask(idTask);
+    }
+
 }
