@@ -22,7 +22,7 @@ public class UserService {
 
     public UserDTO saveUser(UserDTO userDTO){
         User user = UserMapper.MapToUser(userDTO);
-        user.setRole(Role.User);
+        user.setRole("USER");
         userRepository.save(user);
         return userDTO;
     }
