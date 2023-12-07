@@ -104,8 +104,10 @@ header .addtask .btn{
     font-size: 1.3em;
     font-weight: 300;
 }
+.header img{
+     margin-left: 25%;
+ }
 .header .counter{
-    margin-left: 30%;
     color: #020472;
     font-size: 1.5em;
 }
@@ -119,12 +121,12 @@ header .addtask .btn{
 }
 .content .box .task .title{
     height: 25%;
-    width: 55%;
+    width: 65%;
     float: left;
 }
 .content .box .task .data{
     height: 25%;
-    width: 5%;
+    width: 35%;
     float: left;
 }
 .content .box .task .description{
