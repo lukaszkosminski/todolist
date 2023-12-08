@@ -2,6 +2,7 @@ package com.todolist.controller;
 
 import com.todolist.dto.TaskDTO;
 import com.todolist.service.TaskService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class TaskController {
     }
 
     @PostMapping("api/user/create-task")
-    public TaskDTO createTask(@RequestBody TaskDTO taskDTO) {
-        return taskService.saveTask(taskDTO);
+    public TaskDTO createTask(@RequestBody TaskDTO taskDTO,@RequestParam Long idTasklist) throws NotFoundException {
+        return taskService.createTask(taskDTO, idTasklist);
     }
 
     @PutMapping("api/user/edit-task/{idTask}")
