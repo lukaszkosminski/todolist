@@ -5,7 +5,6 @@
     <title>ToDoList</title>
     <link rel="stylesheet" href="/css/list.css">
     <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/formAnimationPlaceholder.css">
 </head>
 <body>
 <div class="sidebar">
@@ -64,24 +63,6 @@
         <div class="search">
             <input type="text" placeholder="search">
         </div>
-        <div class="addtask">
-            <button type="submit" class="btn" onclick="addInput()">Add Task</button>
-        </div>
-        <div class="addtaskinput" onsubmit="submitForm()">
-            <h3>Add Task</h3><br>
-            <form autocomplete="off">
-                <div class="taskinput">
-                    <input required="" type="text" name="Title" class="input">
-                    <label class="label">Title</label>
-                </div>
-
-                <div class="taskinput">
-                    <input required="" type="text" name="Title" class="input">
-                    <label class="label">Desc</label>
-                </div>
-                <button type="submit">Add Task</button>
-            </form>
-        </div>
     </header>
     <div class="content">
         <div class="box" id="TODO">
@@ -97,6 +78,9 @@
                 <div class="description">opis</div>
                 <div class="id">1</div>
             </div>
+            <div class="addtask">
+                <div class="plus">+</div>
+            </div>
         </div>
         <div class="box" id="IN_PROGRESS">
             <div class="header">
@@ -110,6 +94,9 @@
                 <div class="data">data</div>
                 <div class="description">opis</div>
                 <div class="id">2</div>
+            </div>
+            <div class="addtask">
+                <div class="plus">+</div>
             </div>
         </div>
         <div class="box" id="DONE">
@@ -125,6 +112,9 @@
                 <div class="description">opis</div>
                 <div class="id">3</div>
             </div>
+            <div class="addtask">
+                <div class="plus">+</div>
+            </div>
         </div>
         <div class="box" id="CANCELED">
             <div class="header">
@@ -139,36 +129,14 @@
                 <div class="description">opis</div>
                 <div class="id">4</div>
             </div>
+            <div class="addtask">
+                <div class="plus">+</div>
+            </div>
         </div>
     </div>
 </main>
-<script>
-    function addInput() {
-        let addtaskinput = document.querySelector(".addtaskinput");
-        if (addtaskinput.style.display === "block") {
-            addtaskinput.style.display = "none";
-        } else {
-            addtaskinput.style.display = "block";
-        }
-    }
-
-    function submitForm(event) {
-        event.preventDefault();
-        let addtaskinput = document.querySelector(".addtaskinput");
-        addtaskinput.style.display = "none";
-    }
-
-    document.addEventListener('click', function (event) {
-        let addtaskinput = document.querySelector(".addtaskinput");
-        let addtaskButton = document.querySelector(".btn");
-
-        if (!addtaskinput.contains(event.target) && event.target !== addtaskButton) {
-            addtaskinput.style.display = "none";
-        }
-    });
-</script>
+<script src="/javascript/addTask.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="/javascript/dragEvent.js"></script>
 <script src="/javascript/dragEvent.js"></script>
 </body>
 </html>

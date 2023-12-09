@@ -30,7 +30,7 @@ for (let box of boxes) {
 
             let taskId = selected.querySelector(".id").textContent;
             if (currentBoxId !== targetBoxId) {
-                box.appendChild(selected);
+                box.insertBefore(selected, box.querySelector(".addtask"));
                 updateCounters();
                 updateTaskStatus(taskId, box.id);
             }
