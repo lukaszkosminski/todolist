@@ -15,7 +15,6 @@ main{
     width: calc(100% - 60px);
     background-color: #C8BEBD;
     color: #03045E;
-    display: flex;
 }
 header{
     display: flex;
@@ -43,31 +42,12 @@ header input{
     width: 100%;
     height: 50%;
     background-color: transparent;
-    border: none;
     outline: none;
     border: 2px solid #020472;
     border-radius: 40px;
     font-size: 1.2em;
     color: #000;
     padding: 10px 20px;
-}
-header .addtask {
-    width: auto;
-    margin-left: 2vh;
-}
-header .addtask .btn{
-    width: 20vh;
-    height: 45px;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: #020472;
-    border: none;
-    outline: none;
-    border-radius: 10px;
-    margin: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    font-size: 1.2em;
-    font-weight: 600;
 }
 .content{
     display: flex;
@@ -82,7 +62,7 @@ header .addtask .btn{
     background-color: #ccc9c9;
     border-radius: 30px;
 }
-.header{
+.content .box .header{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -91,7 +71,7 @@ header .addtask .btn{
     width: 100%;
     margin-bottom: 5%;
 }
-.header .status{
+.content .box .header .status{
     width: 60%;
     height: 45px;
     padding: 10px 20px;
@@ -104,10 +84,10 @@ header .addtask .btn{
     font-size: 1.3em;
     font-weight: 300;
 }
-.header img{
+.content .box .header img{
      margin-left: 25%;
  }
-.header .counter{
+.content .box .header .counter{
     color: #020472;
     font-size: 1.5em;
 }
@@ -138,4 +118,55 @@ header .addtask .btn{
     height: 50%;
     width: 25%;
     float: left;
+}
+.content .box .addtask{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75px;
+    width: 100%;
+    text-align: center;
+    border: 1px dashed black;
+    border-radius: 10px;
+    margin-bottom: 5%;
+}
+.content .box .addtask .plus{
+    font-size: 5vh;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+}
+.content .box .addtask .inputTask {
+    border-radius: 10px;
+}
+
+.taskinput {
+    position: relative;
+}
+.input {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: none;
+    font-size: 15px;
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.label {
+    position: absolute;
+    left: 20px;
+    color: black;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.input:focus,
+.input:valid {
+    outline: none;
+    border: 1px solid #03068d;
+}
+.input:focus~.label, .input:valid~.label {
+    transform: translateY(-50%) scale(0.8);
+    background-color: #020472;
+    padding: 2px;
+    color: white;
 }

@@ -63,12 +63,9 @@
         <div class="search">
             <input type="text" placeholder="search">
         </div>
-        <div class="addtask">
-            <button type="submit" class="btn">Add Task</button>
-        </div>
     </header>
     <div class="content">
-        <div class="box" id="todo">
+        <div class="box" id="TODO">
             <div class="header">
                 <div class="status" style="
                     background-color: #080bb1;">TO DO</div>
@@ -81,8 +78,11 @@
                 <div class="description">opis</div>
                 <div class="id">1</div>
             </div>
+            <div class="addtask">
+                <div class="plus">+</div>
+            </div>
         </div>
-        <div class="box" id="inprogres">
+        <div class="box" id="IN_PROGRESS">
             <div class="header">
                 <div class="status" style="
                     background-color: #fcd12a;">IN_PROGRESS</div>
@@ -93,10 +93,13 @@
                 <div class="title">tytuł</div>
                 <div class="data">data</div>
                 <div class="description">opis</div>
-                <div class="id">id</div>
+                <div class="id">2</div>
+            </div>
+            <div class="addtask">
+                <div class="plus">+</div>
             </div>
         </div>
-        <div class="box" id="done">
+        <div class="box" id="DONE">
             <div class="header">
                 <div class="status" style="
                     background-color: #3cb043;">DONE</div>
@@ -107,10 +110,13 @@
                 <div class="title">tytuł</div>
                 <div class="data">data</div>
                 <div class="description">opis</div>
-                <div class="id">id</div>
+                <div class="id">3</div>
+            </div>
+            <div class="addtask">
+                <div class="plus">+</div>
             </div>
         </div>
-        <div class="box" id="canceled">
+        <div class="box" id="CANCELED">
             <div class="header">
                 <div class="status" style="
                     background-color: #ff2400;">CANCELED</div>
@@ -121,13 +127,16 @@
                 <div class="title">tytuł</div>
                 <div class="data">data</div>
                 <div class="description">opis</div>
-                <div class="id">id</div>
+                <div class="id">4</div>
+            </div>
+            <div class="addtask">
+                <div class="plus">+</div>
             </div>
         </div>
     </div>
 </main>
+<script src="/javascript/addTask.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="/javascript/dragEvent.js"></script>
 <script src="/javascript/dragEvent.js"></script>
 </body>
 </html>
