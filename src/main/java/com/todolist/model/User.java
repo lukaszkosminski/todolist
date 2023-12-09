@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks;
+    private List<TaskList> taskList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,8 +64,5 @@ public class User implements UserDetails {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password ="{bcrypt}"+passwordEncoder.encode(password);
     }
-//    public void hashPassword(String password) {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        this.password =passwordEncoder.encode(password);
-//    }
+
 }

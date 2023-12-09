@@ -1,7 +1,7 @@
 package com.todolist.dto.mapper;
 
 import com.todolist.dto.UserDTO;
-import com.todolist.model.Role;
+
 import com.todolist.model.User;
 
 import java.util.ArrayList;
