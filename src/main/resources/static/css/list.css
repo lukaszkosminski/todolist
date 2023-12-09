@@ -15,7 +15,6 @@ main{
     width: calc(100% - 60px);
     background-color: #C8BEBD;
     color: #03045E;
-    display: flex;
 }
 header{
     display: flex;
@@ -43,7 +42,6 @@ header input{
     width: 100%;
     height: 50%;
     background-color: transparent;
-    border: none;
     outline: none;
     border: 2px solid #020472;
     border-radius: 40px;
@@ -68,6 +66,20 @@ header .addtask .btn{
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     font-size: 1.2em;
     font-weight: 600;
+}
+.addtaskinput{
+    position: absolute;
+    height: auto;
+    right: 5vh;
+    top: 10vh;
+    display: none;
+    border-radius: 20px;
+    background-color: #fbfcf8;
+    width: 50vh;
+}
+.addtaskinput h3{
+    width: 100%;
+    text-align: center;
 }
 .content{
     display: flex;
