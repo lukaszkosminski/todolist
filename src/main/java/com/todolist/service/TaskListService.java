@@ -7,8 +7,10 @@ import com.todolist.model.User;
 import com.todolist.repository.TaskListRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaskListService {
@@ -70,6 +72,18 @@ public class TaskListService {
             throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
         }
         TaskList taskList = taskListRepository.findById(idTaskList).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskList + " not found"));
-       return TaskListMapper.mapToDTO(taskList);
+        return TaskListMapper.mapToDTO(taskList);
+    }
+
+    public List<String> getTaskListNames(User user) {
+        List<String> taskListNames = new ArrayList<>();
+        List<TaskList> taskListsByUser = taskListRepository.findallByUser(user);
+        if (taskListsByUser != null) {
+            for (TaskList task : taskListsByUser) {
+                taskListNames.add(task.getName());
+            }
+        }
+        return taskListNames;
+
     }
 }
