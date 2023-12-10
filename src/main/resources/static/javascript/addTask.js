@@ -1,64 +1,118 @@
+let addButton = document.querySelector(".btn");
+let boxses = document.querySelectorAll(".box")
+addButton.addEventListener("click", () => {
+    for(let box of boxses){
+        box.style.filter = "blur(2px)";
+    }
+    let content = document.querySelector(".content");
+        let contentdiv = document.createElement("div");
+        contentdiv.classList.add("contentdiv");
+            let form = document.createElement("form");
+            form.classList.add("form");
+            form.appendChild(Input("Title"));
+            form.appendChild(Input("Description"));
+            form.appendChild(RadioInputs(["TODO", "IN_PROGRESS", "DONE", "CANCELED"], "StatusTask"));
+            form.appendChild(RadioInputs(["LOW", "MEDIUM", "HIGH"], "PriorityTask"));
+                let submitButton = document.createElement("input");
+                submitButton.setAttribute("type", "submit");
+                submitButton.setAttribute("value", "Add Task");
+            form.appendChild(submitButton);
+        contentdiv.appendChild(form);
+    content.appendChild(contentdiv);
 
-let addtaskElements = document.querySelectorAll(".addtask");
-addtaskElements.forEach(addtaskElement => {
-    addtaskElement.addEventListener("click", () => {
-        addtaskElement.removeChild(addtaskElement.querySelector(".plus"))
-        let form = document.createElement("form");
-        form.setAttribute("action", "/list");
-        form.setAttribute("method", "GET");
-        form.style.width = "100%";
-
-        let taskInput1 = document.createElement("div");
-        taskInput1.classList.add("taskinput");
-        taskInput1.style.marginLeft = "2%";
-        taskInput1.style.width = "60%";
-        taskInput1.style.height = "25px";
-        taskInput1.style.float = "left";
-
-        let inputTitle = document.createElement("input");
-        inputTitle.setAttribute("type", "text");
-        inputTitle.classList.add("title");
-        inputTitle.classList.add("input");
-        inputTitle.setAttribute("required", "");
-        taskInput1.appendChild(inputTitle);
-        let labelTitle = document.createElement("label");
-        labelTitle.innerText = "Title";
-        labelTitle.classList.add("label");
-        labelTitle.style.fontSize = "15px";
-        labelTitle.style.top = "-5px";
-        taskInput1.appendChild(labelTitle);
-
-        form.appendChild(taskInput1);
-
-        let submitButton = document.createElement("input");
-        submitButton.setAttribute("type", "submit");
-        submitButton.setAttribute("value", "Add Task");
-        submitButton.style.marginRight = "2%";
-        submitButton.style.float = "right";
-        submitButton.style.width = "30%";
-        submitButton.style.height = "25px";
-        form.appendChild(submitButton);
-
-        let taskInput2 = document.createElement("div");
-        taskInput2.classList.add("taskinput");
-        taskInput2.style.margin = "1% 3% 0 3%";
-        taskInput2.style.width = "96%";
-        taskInput2.style.height = "30px";
-        taskInput2.style.clear = "both";
-        let inputDescription = document.createElement("input");
-        inputDescription.setAttribute("type", "text");
-        inputDescription.classList.add("description");
-        inputDescription.classList.add("input");
-        inputDescription.setAttribute("required", "");
-        taskInput2.appendChild(inputDescription);
-        let labelDescription = document.createElement("label");
-        labelDescription.innerText = "Description";
-        labelDescription.classList.add("label");
-        labelDescription.style.fontSize = "15px";
-        labelDescription.style.top = "-2px";
-        taskInput2.appendChild(labelDescription);
-        form.appendChild(taskInput2);
-        addtaskElement.appendChild(form);
-
+    document.querySelector('.form').addEventListener("submit", function (event) {
+        event.preventDefault();
+        for(let box of boxses){
+            box.style.filter = "blur(0)";
+        }
+        let priorityTask = CheckedRadio("PriorityTask");
+        let statusTask = CheckedRadio("StatusTask");
+        let formData = {
+            priorityTask: priorityTask,
+            title: document.querySelector('input[name = "Title"]').value,
+            description: document.querySelector('input[name = "Description"]').value,
+            statusTask: statusTask,
+        };
+        fetch("api/user/create-task?idTasklist=1", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        }).then(response => response.json()).then(data => {
+            window.location.href = `/list`;
+        })
     });
-})
+    document.addEventListener("click", function (event) {
+        if (!contentdiv.contains(event.target) && event.target !== addButton) {
+            if (content.contains(contentdiv)) {
+                for(let box of boxses){
+                    box.style.filter = "blur(0)";
+                }
+                content.removeChild(contentdiv);
+            }
+        }
+    });
+});
+
+function CheckedRadio(nameName) {
+    const radioButtons = document.querySelectorAll('input[name=' + nameName + ']');
+    for (let i of radioButtons) {
+        if (i.checked) {
+            return i.value;
+        }
+    }
+}
+
+function RadioInputs(statusTask, name){
+    let element = document.createElement("div");
+    element.classList.add("RadioInput");
+    for (let i of statusTask) {
+        let elements = document.createElement("div");
+        elements.classList.add("element");
+        elements.appendChild(RadioInput(i, name));
+        elements.appendChild(RadioLabel(i, name));
+        element.appendChild(elements);
+    }
+    return element;
+}
+
+function Input(name){
+    let element = document.createElement("div");
+    element.classList.add(name);
+    element.appendChild(TextInput(name));
+    element.appendChild(TextLabel(name));
+    return element;
+}
+
+function TextInput(name){
+    let textInput = document.createElement("input");
+    textInput.setAttribute("type", "text");
+    textInput.setAttribute("required", "");
+    textInput.setAttribute("name", name);
+    textInput.classList.add("input");
+    return textInput;
+}
+
+function TextLabel(name){
+    let textLabel = document.createElement("label");
+    textLabel.classList.add("label" + name);
+    textLabel.innerText = name;
+    return textLabel;
+}
+
+function RadioInput(value, name){
+    let statusTaskInput = document.createElement("input");
+    statusTaskInput.setAttribute("type", "radio");
+    statusTaskInput.setAttribute("name", name);
+    statusTaskInput.setAttribute("value", value);
+    statusTaskInput.setAttribute("required", true);
+    return statusTaskInput;
+}
+
+function RadioLabel(statusTask, name){
+    let statusTaskLabel = document.createElement("label");
+    statusTaskLabel.classList.add("label" + name);
+    statusTaskLabel.innerText = statusTask;
+    return statusTaskLabel
+}

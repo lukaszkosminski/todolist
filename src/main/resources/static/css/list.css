@@ -49,6 +49,24 @@ header input{
     color: #000;
     padding: 10px 20px;
 }
+header .addtask {
+    width: auto;
+    margin-left: 2vh;
+}
+header .addtask .btn{
+    width: 20vh;
+    height: 45px;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #020472;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    margin: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    font-size: 1.2em;
+    font-weight: 600;
+}
 .content{
     display: flex;
     flex-direction: row;
@@ -56,6 +74,7 @@ header input{
     height: calc(100% - 5vh);
 }
 .content .box{
+    transition: 0.5s;
     width: 24%;
     padding: 1%;
     margin: 1%;
@@ -119,54 +138,98 @@ header input{
     width: 25%;
     float: left;
 }
-.content .box .addtask{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75px;
-    width: 100%;
-    text-align: center;
-    border: 1px dashed black;
-    border-radius: 10px;
-    margin-bottom: 5%;
+.contentdiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    width: 70vh;
+    height: 30vh;
+    border: 1px solid black;
+    background-color: #d6d4d4;
 }
-.content .box .addtask .plus{
-    font-size: 5vh;
-    border-radius: 10px;
+.form{
     height: 100%;
     width: 100%;
 }
-.content .box .addtask .inputTask {
-    border-radius: 10px;
-}
-
-.taskinput {
+.Title{
+    margin: 2% 4%;
+    width: 92%;
+    height: 8%;
     position: relative;
 }
-.input {
+.Description{
+    margin: 2% 4%;
+    width: 92%;
+    height: 15%;
+    position: relative;
+}
+.RadioInput{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0 5%;
+    width: 40%;
+    float: left;
+}
+input[type="radio"]{
+    width: 20px;
+}
+.labelStatusTask{
+    margin: 10%;
+    width: 55%;
+}
+.labelPriorityTask{
+    margin: 10%;
+    width: 55%;
+}
+.element{
+    height: 1%;
+}
+input[name="Title"], input[name="Description"]{
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    color: black;
     background: none;
     font-size: 15px;
     transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.label {
-    position: absolute;
+.labelDescription {
     left: 20px;
+    font-size: 20px;
+}
+.labelTitle {
+    top: -5px;
+    left: 20px;
+    font-size: 15px;
+}
+.labelTitle, .labelDescription{
+    position: absolute;
     color: black;
     pointer-events: none;
     transform: translateY(10px);
     transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.input:focus,
-.input:valid {
+input[name="Title"]:focus, input[name="Description"]:focus,
+input[name="Title"]:valid, input[name="Description"]:valid{
     outline: none;
-    border: 1px solid #03068d;
+    border: 1px solid #080ba8;
 }
-.input:focus~.label, .input:valid~.label {
+input[name="Title"]:focus~ .labelTitle, input[name="Description"]:focus~ .labelDescription,
+input[name="Title"]:valid~ .labelTitle, input[name="Description"]:valid~ .labelDescription{
     transform: translateY(-50%) scale(0.8);
-    background-color: #020472;
+    background-color: #10128d;
     padding: 2px;
-    color: white;
+    color: #fff;
+}
+.form input[type="submit"]{
+    color: #fff;
+    background-color: #020472;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    font-size: 1em;
 }

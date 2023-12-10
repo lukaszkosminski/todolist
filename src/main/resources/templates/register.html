@@ -16,31 +16,7 @@
                     <span class="text">Home</span>
                 </a>
             </li>
-            <li>
-                <a th:href="@{/list}">
-                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                    <span class="text">List after login</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/admin}">
-                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                    <span class="text">Admin</span>
-                </a>
-            </li>
             <div class="bottom">
-                <li>
-                    <a href="#">
-                        <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
-                        <span class="text">Account</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
-                        <span class="text">Log Out</span>
-                    </a>
-                </li>
                 <li>
                     <a th:href="@{/login}">
                         <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
@@ -63,7 +39,7 @@
                 </div>
                 <div class="input-box">
                     <div class="taskinput">
-                        <input required="" type="text" name="email" class="input">
+                        <input required="" type="email" name="email" class="input">
                         <label class="label">Email</label>
                     </div>
                     <img src="/css/image/mail.svg" width="30px">
