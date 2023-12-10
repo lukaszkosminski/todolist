@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class TaskListController {
 
@@ -35,6 +37,9 @@ public class TaskListController {
     public TaskListDTO getTaskList(@RequestParam Long idTaskList, @AuthenticationPrincipal User user) throws Exception{
         return taskListService.getTaskList(idTaskList,user);
     }
-
+    @GetMapping("api/user/get-tasklist-names")
+    public List<String> getTaskListNames(@AuthenticationPrincipal User user){
+        return taskListService.getTaskListNames(user);
+    }
 
 }
