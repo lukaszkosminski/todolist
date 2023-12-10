@@ -1,8 +1,6 @@
 package com.todolist.dto.mapper;
 
-import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskListDTO;
-import com.todolist.model.Task;
 import com.todolist.model.TaskList;
 
 public class TaskListMapper {

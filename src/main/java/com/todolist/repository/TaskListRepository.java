@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TaskListRepository extends JpaRepository<TaskList, Long> {
-    List<TaskList> findallByUser(User user);
+    List<TaskList> findByUser(User user);
 }
