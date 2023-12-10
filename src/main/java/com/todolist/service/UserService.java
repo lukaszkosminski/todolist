@@ -5,7 +5,6 @@ import com.todolist.dto.mapper.UserMapper;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +13,19 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final TaskListService taskListService;
+    private final TaskService taskService;
 
     @Autowired
-    public UserService(UserRepository userRepository, TaskListService taskListService) {
+    public UserService(UserRepository userRepository, TaskService taskService) {
         this.userRepository = userRepository;
-        this.taskListService = taskListService;
+        this.taskService = taskService;
     }
 
-    public UserDTO saveUser(UserDTO userDTO){
+    public UserDTO saveUser(UserDTO userDTO) {
         User user = UserMapper.MapToUser(userDTO);
         user.setRole("USER");
         userRepository.save(user);
-        taskListService.saveDefaultEmptyList(user);
+        taskService.saveDefaultEmptyList(user);
         return userDTO;
     }
 
@@ -38,7 +37,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void DeleteUser (long id) {
+    public void DeleteUser(long id) {
         userRepository.deleteById(id);
     }
 }
