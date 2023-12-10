@@ -1,9 +1,7 @@
 package com.todolist.controller;
 
-import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskUpdateStatusDTO;
 import com.todolist.dto.UserDTO;
-import com.todolist.service.TaskService;
 import com.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
