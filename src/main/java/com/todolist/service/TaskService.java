@@ -2,6 +2,8 @@ package com.todolist.service;
 
 import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskListDTO;
+import com.todolist.dto.TaskListIdDTO;
+import com.todolist.dto.mapper.TaskListIdMapper;
 import com.todolist.dto.mapper.TaskListMapper;
 import com.todolist.dto.mapper.TaskMapper;
 import com.todolist.model.Task;
@@ -128,12 +130,12 @@ public class TaskService {
         taskListRepository.delete(taskList);
     }
 
-    public TaskListDTO getTaskList(Long idTaskList, User user) throws NotFoundException {
+    public TaskListIdDTO getTaskList(Long idTaskList, User user) throws NotFoundException {
         if (!userContainsTaskListId(user, idTaskList)) {
             throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
         }
         TaskList taskList = taskListRepository.findById(idTaskList).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskList + " not found"));
-        return TaskListMapper.mapToDTO(taskList);
+        return TaskListIdMapper.mapToDTOWithId(taskList);
     }
 
     public List<String> getTaskListNames(User user) {
