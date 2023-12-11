@@ -1,8 +1,10 @@
 package com.todolist.service;
 
 import com.todolist.dto.TaskDTO;
+import com.todolist.dto.TaskIdDTO;
 import com.todolist.dto.TaskListDTO;
 import com.todolist.dto.TaskListIdDTO;
+import com.todolist.dto.mapper.TaskIdMapper;
 import com.todolist.dto.mapper.TaskListIdMapper;
 import com.todolist.dto.mapper.TaskListMapper;
 import com.todolist.dto.mapper.TaskMapper;
@@ -86,6 +88,18 @@ public class TaskService {
         Task task = taskRepository.findByIdTask(idTask).orElseThrow(() -> new NotFoundException("Task not found"));
         return TaskMapper.mapToDTO(task);
     }
+    public List<TaskIdDTO> getTasks(Long idTaskList, User user) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskList)) {
+            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+        }
+        List<Task> taskId = taskRepository.findByTaskListId(idTaskList);
+        ArrayList<TaskIdDTO> taskIdDTO = new ArrayList<>();
+
+        for (Task task : taskId) {
+            taskIdDTO.add(TaskIdMapper.mapToIdDTO(task));
+        }
+        return taskIdDTO;
+    }
 
     public TaskListDTO saveDefaultEmptyList(User user) {
         TaskList taskList = new TaskList();
@@ -138,15 +152,17 @@ public class TaskService {
         return TaskListIdMapper.mapToDTOWithId(taskList);
     }
 
-    public List<String> getTaskListNames(User user) {
-        List<String> taskListNames = new ArrayList<>();
+    public List<TaskListIdDTO> getTaskListsIdDTO(User user) {
         List<TaskList> taskListsByUser = taskListRepository.findByUser(user);
-        if (taskListsByUser != null) {
-            for (TaskList task : taskListsByUser) {
-                taskListNames.add(task.getName());
-            }
+        ArrayList<TaskListIdDTO> taskListsIdDTO = new ArrayList<>();
+
+        for (TaskList taskList : taskListsByUser) {
+            taskListsIdDTO.add(TaskListIdMapper.mapToDTOWithId(taskList));
         }
-        return taskListNames;
+
+        return taskListsIdDTO;
 
     }
+
+
 }
