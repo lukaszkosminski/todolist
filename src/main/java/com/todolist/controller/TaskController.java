@@ -1,6 +1,7 @@
 package com.todolist.controller;
 
 import com.todolist.dto.TaskDTO;
+import com.todolist.dto.TaskIdDTO;
 import com.todolist.dto.TaskListDTO;
 import com.todolist.dto.TaskListIdDTO;
 import com.todolist.model.User;
@@ -42,6 +43,11 @@ public class TaskController {
         return taskService.getTask(idTask, idTasklist, user);
     }
 
+    @GetMapping("api/user/get-tasks")
+    public List<TaskIdDTO> getTasks(@RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws Exception {
+        return taskService.getTasks(idTasklist, user);
+    }
+
 
     @PostMapping("api/user/create-tasklist")
     public TaskListDTO createTaskList(@RequestBody TaskListDTO taskListDTO, @AuthenticationPrincipal User user) {
@@ -63,8 +69,8 @@ public class TaskController {
         return taskService.getTaskList(idTaskList, user);
     }
 
-    @GetMapping("api/user/get-tasklist-names")
-    public List<String> getTaskListNames(@AuthenticationPrincipal User user) {
-        return taskService.getTaskListNames(user);
+    @GetMapping("api/user/get-tasklist-list")
+    public List<TaskListIdDTO> getTaskListNames(@AuthenticationPrincipal User user) {
+        return taskService.getTaskListsIdDTO(user);
     }
 }
