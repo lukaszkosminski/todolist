@@ -2,6 +2,7 @@ package com.todolist.controller;
 
 import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskListDTO;
+import com.todolist.dto.TaskListIdDTO;
 import com.todolist.model.User;
 import com.todolist.service.TaskService;
 import javassist.NotFoundException;
@@ -58,7 +59,7 @@ public class TaskController {
     }
 
     @GetMapping("api/user/get-tasklist")
-    public TaskListDTO getTaskList(@RequestParam Long idTaskList, @AuthenticationPrincipal User user) throws Exception {
+    public TaskListIdDTO getTaskList(@RequestParam Long idTaskList, @AuthenticationPrincipal User user) throws Exception {
         return taskService.getTaskList(idTaskList, user);
     }
 
