@@ -50,7 +50,7 @@ public class TaskController {
 
 
     @PostMapping("api/user/create-tasklist")
-    public TaskListDTO createTaskList(@RequestBody TaskListDTO taskListDTO, @AuthenticationPrincipal User user) {
+    public TaskListIdDTO createTaskList(@RequestBody TaskListDTO taskListDTO, @AuthenticationPrincipal User user) {
         return taskService.createTaskList(taskListDTO, user);
     }
 
