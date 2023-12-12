@@ -118,11 +118,11 @@ public class TaskService {
         return user.getTaskList().stream().anyMatch(taskList -> taskList.getId().equals(taskListId));
     }
 
-    public TaskListDTO createTaskList(TaskListDTO taskListDTO, User user) {
+    public TaskListIdDTO createTaskList(TaskListDTO taskListDTO, User user) {
         TaskList taskList = TaskListMapper.mapToTaskList(taskListDTO);
         taskList.setUser(user);
         taskListRepository.save(taskList);
-        return TaskListMapper.mapToDTO(taskList);
+        return TaskListIdMapper.mapToDTOWithId(taskList);
     }
 
     public TaskListDTO editTaskList(TaskListDTO taskListDTO, User user, Long idTasklist) throws NotFoundException {
