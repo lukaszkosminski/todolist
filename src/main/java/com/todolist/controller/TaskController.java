@@ -2,8 +2,8 @@ package com.todolist.controller;
 
 import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskIdDTO;
-import com.todolist.dto.TaskListDTO;
-import com.todolist.dto.TaskListIdDTO;
+import com.todolist.dto.TaskCollectionDTO;
+import com.todolist.dto.TaskCollectionIdDTO;
 import com.todolist.model.User;
 import com.todolist.service.TaskService;
 import javassist.NotFoundException;
@@ -24,53 +24,53 @@ public class TaskController {
     }
 
     @PostMapping("api/user/create-task")
-    public TaskDTO createTask(@RequestBody TaskDTO taskDTO, @RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws NotFoundException {
-        return taskService.createTask(taskDTO, idTasklist, user);
+    public TaskDTO createTask(@RequestBody TaskDTO taskDTO, @RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws NotFoundException {
+        return taskService.createTask(taskDTO, idTaskCollection, user);
     }
 
     @PutMapping("api/user/edit-task/{idTask}")
-    public TaskDTO editTask(@RequestBody TaskDTO taskDTO, @PathVariable Long idTask, @RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws Exception {
-        return taskService.editTask(taskDTO, idTask, user, idTasklist);
+    public TaskDTO editTask(@RequestBody TaskDTO taskDTO, @PathVariable Long idTask, @RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws Exception {
+        return taskService.editTask(taskDTO, idTask, user, idTaskCollection);
     }
 
     @DeleteMapping("api/user/delete-task/{idTask}")
-    public void deleteTask(@PathVariable Long idTask, @RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws Exception {
-        taskService.deleteTask(idTask, user, idTasklist);
+    public void deleteTask(@PathVariable Long idTask, @RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws Exception {
+        taskService.deleteTask(idTask, user, idTaskCollection);
     }
 
     @GetMapping("api/user/get-task/{idTask}")
-    public TaskDTO getTask(@PathVariable Long idTask, @RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws Exception {
-        return taskService.getTask(idTask, idTasklist, user);
+    public TaskDTO getTask(@PathVariable Long idTask, @RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws Exception {
+        return taskService.getTask(idTask, idTaskCollection, user);
     }
 
     @GetMapping("api/user/get-tasks")
-    public List<TaskIdDTO> getTasks(@RequestParam Long idTasklist, @AuthenticationPrincipal User user) throws Exception {
-        return taskService.getTasks(idTasklist, user);
+    public List<TaskIdDTO> getTasks(@RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws Exception {
+        return taskService.getTasks(idTaskCollection, user);
     }
 
 
-    @PostMapping("api/user/create-tasklist")
-    public TaskListIdDTO createTaskList(@RequestBody TaskListDTO taskListDTO, @AuthenticationPrincipal User user) {
-        return taskService.createTaskList(taskListDTO, user);
+    @PostMapping("api/user/create-task-collection")
+    public TaskCollectionIdDTO createTaskCollection(@RequestBody TaskCollectionDTO taskCollectionDTO, @AuthenticationPrincipal User user) {
+        return taskService.createTaskCollection(taskCollectionDTO, user);
     }
 
-    @PutMapping("api/user/edit-tasklist")
-    public TaskListDTO editTaskList(@RequestBody TaskListDTO taskListDTO, @AuthenticationPrincipal User user, @RequestParam Long idTasklist) throws NotFoundException {
-        return taskService.editTaskList(taskListDTO, user, idTasklist);
+    @PutMapping("api/user/edit-task-collection")
+    public TaskCollectionDTO editTaskCollection(@RequestBody TaskCollectionDTO taskCollectionDTO, @AuthenticationPrincipal User user, @RequestParam Long idTaskCollection) throws NotFoundException {
+        return taskService.editTaskCollection(taskCollectionDTO, user, idTaskCollection);
     }
 
-    @DeleteMapping("api/user/delete-tasklist")
-    public void deleteTaskList(@AuthenticationPrincipal User user, @RequestParam Long idTasklist) throws Exception {
-        taskService.deleteTaskList(user, idTasklist);
+    @DeleteMapping("api/user/delete-task-collection")
+    public void deleteTaskCollection(@AuthenticationPrincipal User user, @RequestParam Long idTaskCollection) throws Exception {
+        taskService.deleteTaskCollection(user, idTaskCollection);
     }
 
-    @GetMapping("api/user/get-tasklist")
-    public TaskListIdDTO getTaskList(@RequestParam Long idTaskList, @AuthenticationPrincipal User user) throws Exception {
-        return taskService.getTaskList(idTaskList, user);
+    @GetMapping("api/user/get-task-collection")
+    public TaskCollectionIdDTO getTaskCollection(@RequestParam Long idTaskCollection, @AuthenticationPrincipal User user) throws Exception {
+        return taskService.getTaskCollection(idTaskCollection, user);
     }
 
-    @GetMapping("api/user/get-tasklist-list")
-    public List<TaskListIdDTO> getTaskListNames(@AuthenticationPrincipal User user) {
-        return taskService.getTaskListsIdDTO(user);
+    @GetMapping("api/user/get-task-collections")
+    public List<TaskCollectionIdDTO> getTaskListCollections(@AuthenticationPrincipal User user) {
+        return taskService.getTaskCollections(user);
     }
 }
