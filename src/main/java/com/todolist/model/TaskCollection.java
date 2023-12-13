@@ -9,8 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "task_list")
-public class TaskList {
+@Table(name = "task_collection")
+public class TaskCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +19,6 @@ public class TaskList {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "taskCollection", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> task;
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "tasks")
+@Table(name = "task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Task {
     private String title;
     private StatusTask statusTask;
     @ManyToOne
-    @JoinColumn(name = "task_list_id")
-    private TaskList taskList;
+    @JoinColumn(name = "task_collection_id")
+    private TaskCollection taskCollection;
 
 }

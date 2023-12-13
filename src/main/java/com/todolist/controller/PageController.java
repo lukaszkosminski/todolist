@@ -1,10 +1,9 @@
 package com.todolist.controller;
 
-import com.todolist.dto.TaskUpdateStatusDTO;
+import com.todolist.dto.TaskIdDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +45,8 @@ public class PageController {
     }
 
     @PostMapping("/updateTaskStatus")
-    public String changeStatus(@RequestBody TaskUpdateStatusDTO taskUpdateStatusDTO) {
-        System.out.println(taskUpdateStatusDTO.getIdTask() + " " + taskUpdateStatusDTO.getStatusTask());
+    public String changeStatus(@RequestBody TaskIdDTO taskIdDTO) {
+        System.out.println(taskIdDTO.getIdTask() + " " + taskIdDTO.getStatusTask());
         return "redirect:/list";
     }
 

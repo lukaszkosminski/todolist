@@ -1,17 +1,17 @@
 package com.todolist.service;
 
+import com.todolist.dto.TaskCollectionDTO;
+import com.todolist.dto.TaskCollectionIdDTO;
 import com.todolist.dto.TaskDTO;
 import com.todolist.dto.TaskIdDTO;
-import com.todolist.dto.TaskListDTO;
-import com.todolist.dto.TaskListIdDTO;
+import com.todolist.dto.mapper.TaskCollectionIdMapper;
+import com.todolist.dto.mapper.TaskCollectionMapper;
 import com.todolist.dto.mapper.TaskIdMapper;
-import com.todolist.dto.mapper.TaskListIdMapper;
-import com.todolist.dto.mapper.TaskListMapper;
 import com.todolist.dto.mapper.TaskMapper;
 import com.todolist.model.Task;
-import com.todolist.model.TaskList;
+import com.todolist.model.TaskCollection;
 import com.todolist.model.User;
-import com.todolist.repository.TaskListRepository;
+import com.todolist.repository.TaskCollectionRepository;
 import com.todolist.repository.TaskRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,32 +26,32 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final TaskListRepository taskListRepository;
+    private final TaskCollectionRepository taskCollectionRepository;
 
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, TaskListRepository taskListRepository) {
+    public TaskService(TaskRepository taskRepository, TaskCollectionRepository taskCollectionRepository) {
         this.taskRepository = taskRepository;
-        this.taskListRepository = taskListRepository;
+        this.taskCollectionRepository = taskCollectionRepository;
     }
 
 
-    public TaskDTO createTask(TaskDTO taskDTO, Long taskListId, User user) throws NotFoundException {
-        if (!userContainsTaskListId(user, taskListId)) {
-            throw new NotFoundException("TaskList with id " + taskListId + " not found for the user");
+    public TaskDTO createTask(TaskDTO taskDTO, Long idTaskCollection, User user) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
-        TaskList taskList = findTasklist(taskListId);
+        TaskCollection taskCollection = findTasklist(idTaskCollection);
         Task task = TaskMapper.mapToTask(taskDTO);
         task.setDateTime(LocalDateTime.now());
-        task.setTaskList(taskList);
+        task.setTaskCollection(taskCollection);
         taskRepository.save(task);
         return taskDTO;
     }
 
-    public TaskDTO editTask(TaskDTO taskDTO, Long idTask, User user, Long taskListId) throws Exception {
+    public TaskDTO editTask(TaskDTO taskDTO, Long idTask, User user, Long idTaskCollection) throws Exception {
         Task task = taskRepository.findByIdTask(idTask).orElseThrow(() -> new NotFoundException("Task not found"));
-        if (!userContainsTaskListId(user, taskListId)) {
-            throw new NotFoundException("TaskList with id " + taskListId + " not found for the user");
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
         task.setPriorityTask(taskDTO.getPriorityTask());
         task.setDescription(taskDTO.getDescription());
@@ -60,41 +60,41 @@ public class TaskService {
         return TaskMapper.mapToDTO(task);
     }
 
-    public void deleteTask(Long idTask, User user, Long idTaskList) throws Exception {
+    public void deleteTask(Long idTask, User user, Long idTaskCollection) throws Exception {
         Task task = taskRepository.findByIdTask(idTask).orElseThrow(() -> new NotFoundException("Task not found"));
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
         taskRepository.delete(task);
     }
 
-    public void deleteTasksByTaskList(Long idTaskList, User user) throws Exception {
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+    public void deleteTasksByTaskList(Long idTaskCollection, User user) throws Exception {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
 
-        List<Task> tasksToDelete = taskRepository.findByTaskListId(idTaskList);
+        List<Task> tasksToDelete = taskRepository.findByTaskCollectionId(idTaskCollection);
 
         if (tasksToDelete.isEmpty()) {
-            throw new NotFoundException("No tasks found for TaskList with id " + idTaskList);
+            throw new NotFoundException("No tasks found for TaskList with id " + idTaskCollection);
         }
 
         taskRepository.deleteAll(tasksToDelete);
     }
 
-    public TaskDTO getTask(Long idTask, Long idTaskList, User user) throws NotFoundException {
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+    public TaskDTO getTask(Long idTask, Long idTaskCollection, User user) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
         Task task = taskRepository.findByIdTask(idTask).orElseThrow(() -> new NotFoundException("Task not found"));
         return TaskMapper.mapToDTO(task);
     }
 
-    public List<TaskIdDTO> getTasks(Long idTaskList, User user) throws NotFoundException {
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+    public List<TaskIdDTO> getTasks(Long idTaskCollection, User user) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
-        List<Task> taskId = taskRepository.findByTaskListId(idTaskList);
+        List<Task> taskId = taskRepository.findByTaskCollectionId(idTaskCollection);
         ArrayList<TaskIdDTO> taskIdDTO = new ArrayList<>();
 
         for (Task task : taskId) {
@@ -103,69 +103,69 @@ public class TaskService {
         return taskIdDTO;
     }
 
-    public TaskListDTO saveDefaultEmptyList(User user) {
-        TaskList taskList = new TaskList();
-        taskList.setName("default");
-        taskList.setUser(user);
-        taskListRepository.save(taskList);
-        return TaskListMapper.mapToDTO(taskList);
+    public TaskCollectionDTO saveDefaultEmptyList(User user) {
+        TaskCollection taskCollection = new TaskCollection();
+        taskCollection.setName("default");
+        taskCollection.setUser(user);
+        taskCollectionRepository.save(taskCollection);
+        return TaskCollectionMapper.mapToDTO(taskCollection);
     }
 
-    public TaskList findTasklist(Long taskListId) throws NotFoundException {
-        TaskList taskList = taskListRepository.findById(taskListId).orElseThrow(() -> new NotFoundException("TaskList not found"));
-        return taskList;
+    public TaskCollection findTasklist(Long idTaskCollection) throws NotFoundException {
+        TaskCollection taskCollection = taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList not found"));
+        return taskCollection;
     }
 
-    public boolean userContainsTaskListId(User user, Long taskListId) {
-        List<TaskList> taskListbyUser = taskListRepository.findByUser(user);
-        for (TaskList taskList : taskListbyUser) {
-            if (taskList.getId() == taskListId) {
+    public boolean userContainsTaskListId(User user, Long idTaskCollection) {
+        List<TaskCollection> taskListbyUser = taskCollectionRepository.findByUser(user);
+        for (TaskCollection taskCollection : taskListbyUser) {
+            if (taskCollection.getId() == idTaskCollection) {
                 return true;
             }
         }
         return false;
     }
 
-    public TaskListIdDTO createTaskList(TaskListDTO taskListDTO, User user) {
-        TaskList taskList = TaskListMapper.mapToTaskList(taskListDTO);
-        taskList.setUser(user);
-        taskListRepository.save(taskList);
-        return TaskListIdMapper.mapToDTOWithId(taskList);
+    public TaskCollectionIdDTO createTaskCollection(TaskCollectionDTO taskCollectionDTO, User user) {
+        TaskCollection taskCollection = TaskCollectionMapper.mapToTaskList(taskCollectionDTO);
+        taskCollection.setUser(user);
+        taskCollectionRepository.save(taskCollection);
+        return TaskCollectionIdMapper.mapToDTOWithId(taskCollection);
     }
 
-    public TaskListDTO editTaskList(TaskListDTO taskListDTO, User user, Long idTasklist) throws NotFoundException {
-        if (!userContainsTaskListId(user, idTasklist)) {
-            throw new NotFoundException("TaskList with id " + idTasklist + " not found for the user");
+    public TaskCollectionDTO editTaskCollection(TaskCollectionDTO taskCollectionDTO, User user, Long idTaskCollection) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
-        TaskList taskList = taskListRepository.findById(idTasklist).orElseThrow(() -> new NotFoundException("TaskList not found"));
-        taskList.setName(taskListDTO.getName());
-        taskListRepository.save(taskList);
-        return TaskListMapper.mapToDTO(taskList);
+        TaskCollection taskCollection = taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList not found"));
+        taskCollection.setName(taskCollectionDTO.getName());
+        taskCollectionRepository.save(taskCollection);
+        return TaskCollectionMapper.mapToDTO(taskCollection);
     }
 
-    public void deleteTaskList(User user, Long idTaskList) throws Exception {
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+    public void deleteTaskCollection(User user, Long idTaskCollection) throws Exception {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
-        deleteTasksByTaskList(idTaskList, user);
-        TaskList taskList = taskListRepository.findById(idTaskList).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskList + " not found"));
-        taskListRepository.delete(taskList);
+        deleteTasksByTaskList(idTaskCollection, user);
+        TaskCollection taskCollection = taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskCollection + " not found"));
+        taskCollectionRepository.delete(taskCollection);
     }
 
-    public TaskListIdDTO getTaskList(Long idTaskList, User user) throws NotFoundException {
-        if (!userContainsTaskListId(user, idTaskList)) {
-            throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
+    public TaskCollectionIdDTO getTaskCollection(Long idTaskCollection, User user) throws NotFoundException {
+        if (!userContainsTaskListId(user, idTaskCollection)) {
+            throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
-        TaskList taskList = taskListRepository.findById(idTaskList).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskList + " not found"));
-        return TaskListIdMapper.mapToDTOWithId(taskList);
+        TaskCollection taskCollection = taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList with id " + idTaskCollection + " not found"));
+        return TaskCollectionIdMapper.mapToDTOWithId(taskCollection);
     }
 
-    public List<TaskListIdDTO> getTaskListsIdDTO(User user) {
-        List<TaskList> taskListsByUser = taskListRepository.findByUser(user);
-        ArrayList<TaskListIdDTO> taskListsIdDTO = new ArrayList<>();
+    public List<TaskCollectionIdDTO> getTaskCollections(User user) {
+        List<TaskCollection> taskListsByUser = taskCollectionRepository.findByUser(user);
+        ArrayList<TaskCollectionIdDTO> taskListsIdDTO = new ArrayList<>();
 
-        for (TaskList taskList : taskListsByUser) {
-            taskListsIdDTO.add(TaskListIdMapper.mapToDTOWithId(taskList));
+        for (TaskCollection taskCollection : taskListsByUser) {
+            taskListsIdDTO.add(TaskCollectionIdMapper.mapToDTOWithId(taskCollection));
         }
 
         return taskListsIdDTO;
