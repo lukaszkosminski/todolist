@@ -29,15 +29,15 @@ public class UserService {
         return userDTO;
     }
 
-    public List<UserDTO> GetAll() {
+    public List<UserDTO> getAll() {
         return UserMapper.ListUserMapToUserDTO(userRepository.findAll());
     }
 
-    public Optional<User> GetById(long id) {
+    public Optional<User> getById(long id) {
         return userRepository.findById(id);
     }
 
-    public void DeleteUser(long id) {
+    public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
 }
