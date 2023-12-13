@@ -1,128 +1,131 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
-<head>
-    <meta charset="UTF-8">
-    <title>ToDoList</title>
-    <link rel="stylesheet" href="/css/list.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
-</head>
-<body>
-<div class="sidebar">
-    <ul>
-        <li>
-            <a th:href="@{/}">
-                <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
-                <span class="text">Home</span>
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/list}">
-                <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                <span class="text">List after login</span>
-            </a>
-        </li>
-        <li>
-            <a class="addList">
-                <span class="icon"><img src="/css/image/plus.svg" width="30px"></span>
-                <span class="text">AddList</span>
-            </a>
-        </li>
-        <div class="bottom">
+    <head>
+        <meta charset="UTF-8">
+        <title>ToDoList</title>
+        <link rel="stylesheet" href="/css/list.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
+    </head>
+    <body>
+    <div class="sidebar">
+        <ul>
             <li>
-                <a href="#">
-                    <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
-                    <span class="text">Account</span>
+                <a th:href="@{/}">
+                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li th:each="nameList : ${nameLists}">
+                <a th:href="@{'/list/' + ${nameList.id}}">
+                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                    <span class="text" th:text="${nameList.name}"></span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
-                    <span class="text">Log Out</span>
+                <a class="addList">
+                    <span class="icon"><img src="/css/image/plus.svg" width="30px"></span>
+                    <span class="text">AddList</span>
                 </a>
             </li>
-            <li>
-                <a th:href="@{/login}">
-                    <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
-                    <span class="text">Login</span>
-                </a>
-            </li>
-        </div>
-    </ul>
-</div>
-<main>
-    <header>
-        <div class="listname">
-            <h1>ListName</h1>
-        </div>
-        <div class="search">
-            <input type="text" placeholder="search">
-        </div>
-        <div class="addtask">
-            <button type="submit" class="btn">Add Task</button>
-        </div>
-    </header>
-    <div class="content">
-        <div class="box" id="TODO">
-            <div class="header">
-                <div class="status" style="
-                    background-color: #080bb1;">TO DO</div>
-                <img src="/css/image/layers.svg" width="30px">
-                <div class="counter" id="ctr1"></div>
+            <div class="bottom">
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
+                        <span class="text">Account</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
+                        <span class="text">Log Out</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/login}">
+                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
+                        <span class="text">Login</span>
+                    </a>
+                </li>
             </div>
-            <div class="task" draggable="true">
-                <div class="title">tytuł</div>
-                <div class="data">data</div>
-                <div class="description">opis</div>
-                <div class="id">1</div>
-            </div>
-        </div>
-        <div class="box" id="IN_PROGRESS">
-            <div class="header">
-                <div class="status" style="
-                    background-color: #fcd12a;">IN_PROGRESS</div>
-                <img src="/css/image/layers.svg" width="30px">
-                <div class="counter" id="ctr2"></div>
-            </div>
-            <div class="task" draggable="true">
-                <div class="title">tytuł</div>
-                <div class="data">data</div>
-                <div class="description">opis</div>
-                <div class="id">2</div>
-            </div>
-        </div>
-        <div class="box" id="DONE">
-            <div class="header">
-                <div class="status" style="
-                    background-color: #3cb043;">DONE</div>
-                <img src="/css/image/layers.svg" width="30px">
-                <div class="counter" id="ctr3"></div>
-            </div>
-            <div class="task" draggable="true">
-                <div class="title">tytuł</div>
-                <div class="data">data</div>
-                <div class="description">opis</div>
-                <div class="id">3</div>
-            </div>
-        </div>
-        <div class="box" id="CANCELED">
-            <div class="header">
-                <div class="status" style="
-                    background-color: #ff2400;">CANCELED</div>
-                <img src="/css/image/layers.svg" width="30px">
-                <div class="counter" id="ctr4"></div>
-            </div>
-            <div class="task" draggable="true">
-                <div class="title">tytuł</div>
-                <div class="data">data</div>
-                <div class="description">opis</div>
-                <div class="id">4</div>
-            </div>
-        </div>
+        </ul>
     </div>
-</main>
-<script src="/javascript/addTask.js"></script>
-<script src="/javascript/addList.js"></script>
-<script src="/javascript/dragEvent.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-</body>
+    <main>
+        <header>
+            <div class="listname">
+                <h1 th:text="${currentList.name}"></h1>
+            </div>
+            <div class="search">
+                <input type="text" placeholder="search">
+            </div>
+            <div class="addtask">
+                <button type="submit" class="btn">Add Task</button>
+            </div>
+        </header>
+        <div class="content">
+            <div class="box" id="TODO">
+                <div class="header">
+                    <div class="status" style="
+                        background-color: #080bb1;">TO DO</div>
+                    <img src="/css/image/layers.svg" width="30px">
+                    <div class="counter" id="ctr1"></div>
+                </div>
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).TODO}">
+                    <div class="title" th:text="${task.title}"></div>
+                    <div class="data">data</div>
+                    <div class="description" th:text="${task.description}"></div>
+                    <div class="id" th:text="${task.idTask}"></div>
+                </div>
+            </div>
+            <div class="box" id="IN_PROGRESS">
+                <div class="header">
+                    <div class="status" style="
+                        background-color: #fcd12a;">IN_PROGRESS</div>
+                    <img src="/css/image/layers.svg" width="30px">
+                    <div class="counter" id="ctr2"></div>
+                </div>
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).IN_PROGRESS}">
+                    <div class="title" th:text="${task.title}"></div>
+                    <div class="data">data</div>
+                    <div class="description" th:text="${task.description}"></div>
+                    <div class="id" th:text="${task.idTask}"></div>
+                </div>
+            </div>
+            <div class="box" id="DONE">
+                <div class="header">
+                    <div class="status" style="
+                        background-color: #3cb043;">DONE</div>
+                    <img src="/css/image/layers.svg" width="30px">
+                    <div class="counter" id="ctr3"></div>
+                </div>
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).DONE}">
+                    <div class="title" th:text="${task.title}"></div>
+                    <div class="data">data</div>
+                    <div class="description" th:text="${task.description}"></div>
+                    <div class="id" th:text="${task.idTask}"></div>
+                </div>
+            </div>
+            <div class="box" id="CANCELED">
+                <div class="header">
+                    <div class="status" style="
+                        background-color: #ff2400;">CANCELED</div>
+                    <img src="/css/image/layers.svg" width="30px">
+                    <div class="counter" id="ctr4"></div>
+                </div>
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).CANCELED}">
+                    <div class="title" th:text="${task.title}"></div>
+                    <div class="data">data</div>
+                    <div class="description" th:text="${task.description}"></div>
+                    <div class="id" th:text="${task.idTask}"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script th:inline="javascript">
+        let currentList = /*[[${currentList}]]*/ {};
+    </script>
+    <script src="/javascript/addTask.js"></script>
+    <script src="/javascript/addList.js"></script>
+    <script src="/javascript/dragEvent.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    </body>
 </html>

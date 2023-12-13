@@ -31,8 +31,19 @@ for (let box of boxes) {
             let taskId = selected.querySelector(".id").textContent;
             if (currentBoxId !== targetBoxId) {
                 box.insertBefore(selected, box.querySelector(".addtask"));
-                updateCounters();
-                updateTaskStatus(taskId, box.id);
+                let formData = {
+                    description: selected.querySelector(".description").textContent,
+                    statusTask: targetBoxId,
+                }
+                fetch(`http://localhost:8080/api/user/edit-task/${taskId}?idTaskCollection=${currentList.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                }).then(response => response.json()).then(data => {
+                    updateCounters();
+                })
             }
         }
     });
@@ -42,17 +53,4 @@ function updateCounters() {
     for (let i = 0; i < boxes.length; i++) {
         counters[i].textContent = boxes[i].getElementsByClassName("task").length;
     }
-}
-
-function updateTaskStatus(idTask, statusTask) {
-    console.log(idTask + " " + statusTask)
-    $.ajax({
-        type: 'POST',
-        contentType: 'application/json',
-        url: '/updateTaskStatus',
-        data: JSON.stringify({
-            idTask: idTask,
-            statusTask: statusTask
-        }),
-    });
 }

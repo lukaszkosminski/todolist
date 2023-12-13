@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
-<head>
-    <meta charset="UTF-8">
-    <title>ToDoList</title>
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/sidebar.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>ToDoList</title>
+        <link rel="stylesheet" href="/css/home.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
+    </head>
+    <body>
     <div class="sidebar">
         <ul>
             <li>
@@ -15,16 +15,10 @@
                     <span class="text">Home</span>
                 </a>
             </li>
-            <li>
-                <a th:href="@{/list}">
+            <li th:each="nameList : ${nameLists}">
+                <a th:href="@{'/list/' + ${nameList.id}}">
                     <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                    <span class="text">List after login</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/admin}">
-                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                    <span class="text">Admin</span>
+                    <span class="text" th:text="${nameList.name}"></span>
                 </a>
             </li>
             <li>
@@ -71,5 +65,5 @@
         </div>
     </main>
     <script src="/javascript/addList.js"></script>
-</body>
+    </body>
 </html>

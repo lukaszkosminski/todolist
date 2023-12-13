@@ -29,18 +29,18 @@ addButton.addEventListener("click", () => {
         let statusTask = CheckedRadio("StatusTask");
         let formData = {
             priorityTask: priorityTask,
+            statusTask: statusTask,
             title: document.querySelector('input[name = "Title"]').value,
             description: document.querySelector('input[name = "Description"]').value,
-            statusTask: statusTask,
         };
-        fetch("api/user/create-task?idTasklist=1", {
+        fetch(`http://localhost:8080/api/user/create-task?idTaskCollection=${currentList.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(formData)
         }).then(response => response.json()).then(data => {
-            window.location.href = `/list`;
+            window.location.href = `/list/${currentList.id}`;
         })
     });
     document.addEventListener("click", function (event) {

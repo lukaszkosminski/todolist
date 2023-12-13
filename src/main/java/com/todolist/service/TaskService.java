@@ -53,6 +53,7 @@ public class TaskService {
         if (!userContainsTaskListId(user, idTaskCollection)) {
             throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
+        task.setStatusTask(taskDTO.getStatusTask());
         task.setPriorityTask(taskDTO.getPriorityTask());
         task.setDescription(taskDTO.getDescription());
         task.setDateTime(LocalDateTime.now());

@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/javascript/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().defaultSuccessUrl("/list")
+                .formLogin().defaultSuccessUrl("/")
                 .and()
                 .logout().logoutSuccessUrl("/")
                 .and()
