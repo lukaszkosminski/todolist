@@ -28,6 +28,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskListRepository taskListRepository;
 
+
     @Autowired
     public TaskService(TaskRepository taskRepository, TaskListRepository taskListRepository) {
         this.taskRepository = taskRepository;
@@ -88,6 +89,7 @@ public class TaskService {
         Task task = taskRepository.findByIdTask(idTask).orElseThrow(() -> new NotFoundException("Task not found"));
         return TaskMapper.mapToDTO(task);
     }
+
     public List<TaskIdDTO> getTasks(Long idTaskList, User user) throws NotFoundException {
         if (!userContainsTaskListId(user, idTaskList)) {
             throw new NotFoundException("TaskList with id " + idTaskList + " not found for the user");
@@ -115,7 +117,13 @@ public class TaskService {
     }
 
     public boolean userContainsTaskListId(User user, Long taskListId) {
-        return user.getTaskList().stream().anyMatch(taskList -> taskList.getId().equals(taskListId));
+        List<TaskList> taskListbyUser = taskListRepository.findByUser(user);
+        for (TaskList taskList : taskListbyUser) {
+            if (taskList.getId() == taskListId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public TaskListIdDTO createTaskList(TaskListDTO taskListDTO, User user) {

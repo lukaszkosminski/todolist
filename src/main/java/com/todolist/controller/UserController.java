@@ -19,22 +19,22 @@ public class UserController {
     }
 
     @PostMapping("api/user/register")
-    public UserDTO RegisteUser (@RequestBody UserDTO userDTO){
+    public UserDTO registeUser (@RequestBody UserDTO userDTO){
         return userService.saveUser(userDTO);
     }
 
     @GetMapping("api/users")
-    public List<UserDTO> GetAllUser(){
-        return userService.GetAll();
+    public List<UserDTO> getAllUser(){
+        return userService.getAll();
     }
 
     @GetMapping("api/user/{userId}")
-    public Optional<User> GetAllUser(@PathVariable long userId){
-        return userService.GetById(userId);
+    public Optional<User> getAllUser(@PathVariable long userId){
+        return userService.getById(userId);
     }
 
     @DeleteMapping("api/user/{userId}")
-    public void DeleteUser(@PathVariable long userId){
-        userService.DeleteUser(userId);
+    public void deleteUser(@PathVariable long userId){
+        userService.deleteUser(userId);
     }
 }
