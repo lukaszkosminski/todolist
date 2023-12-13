@@ -22,7 +22,7 @@ public class TaskIdMapper {
         taskIdDTO.setDescription(task.getDescription());
         taskIdDTO.setPriorityTask(task.getPriorityTask());
         taskIdDTO.setStatusTask(task.getStatusTask());
-        taskIdDTO.setIdTask(taskIdDTO.getIdTask());
+        taskIdDTO.setIdTask(task.getIdTask());
         return taskIdDTO;
     }
 }
