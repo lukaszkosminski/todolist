@@ -24,7 +24,7 @@
             <li>
                 <a class="addList">
                     <span class="icon"><img src="/css/image/plus.svg" width="30px"></span>
-                    <span class="text">AddList</span>
+                    <span class="text">Add Collection Task</span>
                 </a>
             </li>
             <div class="bottom">
@@ -35,15 +35,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a th:href="@{/logout}">
                         <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
                         <span class="text">Log Out</span>
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/login}">
-                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
-                        <span class="text">Login</span>
                     </a>
                 </li>
             </div>
@@ -64,12 +58,12 @@
         <div class="content">
             <div class="box" id="TODO">
                 <div class="header">
-                    <div class="status" style="
-                        background-color: #080bb1;">TO DO</div>
+                    <div class="status" style="background-color: #080bb1;">TO DO</div>
                     <img src="/css/image/layers.svg" width="30px">
                     <div class="counter" id="ctr1"></div>
                 </div>
-                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).TODO}">
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).TODO}" th:id="${task.priorityTask}">
+                    <img src="/css/image/settings.svg" class="edit">
                     <div class="title" th:text="${task.title}"></div>
                     <div class="data">data</div>
                     <div class="description" th:text="${task.description}"></div>
@@ -78,12 +72,12 @@
             </div>
             <div class="box" id="IN_PROGRESS">
                 <div class="header">
-                    <div class="status" style="
-                        background-color: #fcd12a;">IN_PROGRESS</div>
+                    <div class="status" style="background-color: #fcd12a;">IN_PROGRESS</div>
                     <img src="/css/image/layers.svg" width="30px">
                     <div class="counter" id="ctr2"></div>
                 </div>
-                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).IN_PROGRESS}">
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).IN_PROGRESS}" th:id="${task.priorityTask}">
+                    <img src="/css/image/settings.svg" class="edit">
                     <div class="title" th:text="${task.title}"></div>
                     <div class="data">data</div>
                     <div class="description" th:text="${task.description}"></div>
@@ -92,12 +86,12 @@
             </div>
             <div class="box" id="DONE">
                 <div class="header">
-                    <div class="status" style="
-                        background-color: #3cb043;">DONE</div>
+                    <div class="status" style="background-color: #3cb043;">DONE</div>
                     <img src="/css/image/layers.svg" width="30px">
                     <div class="counter" id="ctr3"></div>
                 </div>
-                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).DONE}">
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).DONE}" th:id="${task.priorityTask}">
+                    <img src="/css/image/settings.svg" class="edit">
                     <div class="title" th:text="${task.title}"></div>
                     <div class="data">data</div>
                     <div class="description" th:text="${task.description}"></div>
@@ -106,12 +100,12 @@
             </div>
             <div class="box" id="CANCELED">
                 <div class="header">
-                    <div class="status" style="
-                        background-color: #ff2400;">CANCELED</div>
+                    <div class="status" style="background-color: #ff2400;">CANCELED</div>
                     <img src="/css/image/layers.svg" width="30px">
                     <div class="counter" id="ctr4"></div>
                 </div>
-                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).CANCELED}">
+                <div class="task" draggable="true" th:each="task: ${tasks}" th:if="${task.statusTask == T(com.todolist.model.StatusTask).CANCELED}" th:id="${task.priorityTask}">
+                    <img src="/css/image/settings.svg" class="edit">
                     <div class="title" th:text="${task.title}"></div>
                     <div class="data">data</div>
                     <div class="description" th:text="${task.description}"></div>
@@ -123,9 +117,8 @@
     <script th:inline="javascript">
         let currentList = /*[[${currentList}]]*/ {};
     </script>
-    <script src="/javascript/addTask.js"></script>
-    <script src="/javascript/addList.js"></script>
     <script src="/javascript/dragEvent.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/javascript/operationOnTask.js"></script>
+    <script src="/javascript/addList.js"></script>
     </body>
 </html>

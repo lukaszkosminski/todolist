@@ -25,7 +25,7 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String homePage(@AuthenticationPrincipal User user, Model model) {;
+    public String homePage(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("nameLists", taskService.getTaskCollections(user));
         return "home";
     }

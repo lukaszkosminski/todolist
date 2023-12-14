@@ -6,24 +6,29 @@ addList.addEventListener("click", () => {
         span.classList.add("listForm");
             let form = document.createElement("form");
             form.classList.add("form");
-            form.setAttribute("autocomplete", "off");
+            form.autocomplete = "off";
                 let listName = document.createElement("div");
                 listName.classList.add("listName");
                     let listNameInput = document.createElement("input");
-                    listNameInput.setAttribute("type", "text");
-                    listNameInput.setAttribute("required", "");
-                    listNameInput.setAttribute("name", "name");
+                    listNameInput.type = "text";
+                    listNameInput.required = true;
+                    listNameInput.name = "name";
                     listNameInput.classList.add("name");
                     listNameInput.classList.add("input");
                 listName.appendChild(listNameInput);
                     let listNameLabel = document.createElement("label");
-                    listNameLabel.innerText = "Listname";
+                    listNameLabel.innerText = "Collection list name";
                     listNameLabel.classList.add("label");
                 listName.appendChild(listNameLabel);
             form.appendChild(listName);
+                let csrfInput = document.createElement("input");
+                csrfInput.type= "hidden";
+                csrfInput.name = "_csrf.parameterName";
+                csrfInput.value= "_csrf.token";
+            form.appendChild(csrfInput);
                 let submitButton = document.createElement("input");
-                submitButton.setAttribute("type", "submit");
-                submitButton.setAttribute("value", "Add Task");
+                submitButton.type = "submit";
+                submitButton.value = "add Collection List";
             form.appendChild(submitButton);
         span.appendChild(form);
         addList.appendChild(span);
@@ -32,13 +37,13 @@ addList.addEventListener("click", () => {
             event.preventDefault();
             let formData = {
                 name: document.querySelector(".name").value
-            };
+            }
             fetch("http://localhost:8080/api/user/create-task-collection", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
             }).then(response => response.json()).then(data => {
                 window.location.href = `/list/${data.id}`;
             })
@@ -49,7 +54,7 @@ addList.addEventListener("click", () => {
                 addList.removeChild(document.querySelector(".listForm"));
                 let text = document.createElement("span")
                 text.classList.add("text");
-                text.innerText = "AddList";
+                text.innerText = "Add Collection Task";
                 addList.appendChild(text);
             }
         });

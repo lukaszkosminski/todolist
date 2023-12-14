@@ -14,7 +14,6 @@ main{
     width: calc(100% - 60px);
     background-color: #C8BEBD;
     color: #03045E;
-    display: flex;
 }
 header{
     padding: 3em;

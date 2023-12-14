@@ -53,6 +53,7 @@ public class TaskService {
         if (!userContainsTaskListId(user, idTaskCollection)) {
             throw new NotFoundException("TaskList with id " + idTaskCollection + " not found for the user");
         }
+        task.setTitle(taskDTO.getTitle());
         task.setStatusTask(taskDTO.getStatusTask());
         task.setPriorityTask(taskDTO.getPriorityTask());
         task.setDescription(taskDTO.getDescription());
@@ -113,14 +114,13 @@ public class TaskService {
     }
 
     public TaskCollection findTasklist(Long idTaskCollection) throws NotFoundException {
-        TaskCollection taskCollection = taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList not found"));
-        return taskCollection;
+        return taskCollectionRepository.findById(idTaskCollection).orElseThrow(() -> new NotFoundException("TaskList not found"));
     }
 
     public boolean userContainsTaskListId(User user, Long idTaskCollection) {
-        List<TaskCollection> taskListbyUser = taskCollectionRepository.findByUser(user);
-        for (TaskCollection taskCollection : taskListbyUser) {
-            if (taskCollection.getId() == idTaskCollection) {
+        List<TaskCollection> taskListByUser = taskCollectionRepository.findByUser(user);
+        for (TaskCollection taskCollection : taskListByUser) {
+            if (taskCollection.getId().equals(idTaskCollection)) {
                 return true;
             }
         }

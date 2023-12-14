@@ -25,11 +25,11 @@ public class UserMapper {
 
     public static List<UserDTO> ListUserMapToUserDTO(List<User> users) {
         List<UserDTO> usersDTO = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
+        for (User user : users) {
             UserDTO userDTO = new UserDTO();
-            userDTO.setUserName(users.get(i).getUsername());
-            userDTO.setPassword(users.get(i).getPassword());
-            userDTO.setEmail(users.get(i).getEmail());
+            userDTO.setUserName(user.getUsername());
+            userDTO.setPassword(user.getPassword());
+            userDTO.setEmail(user.getEmail());
             usersDTO.add(userDTO);
         }
         return usersDTO;

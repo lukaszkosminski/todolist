@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     updateCounters();
 })
-let tasks = document.getElementsByClassName("task");
-let boxes = [document.getElementById("TODO"), document.getElementById("IN_PROGRESS"), document.getElementById("DONE"), document.getElementById("CANCELED")];
+let tasks = document.querySelectorAll(".task");
+let boxes = document.querySelectorAll(".box");
 let counters = [document.getElementById("ctr1"), document.getElementById("ctr2"), document.getElementById("ctr3"), document.getElementById("ctr4")];
 
 for (let task of tasks) {
@@ -26,14 +26,15 @@ for (let box of boxes) {
         if(selected != null) {
             selected.classList.remove("dragging");
             let currentBoxId = selected.closest(".box").id;
-            let targetBoxId = box.id;
 
             let taskId = selected.querySelector(".id").textContent;
-            if (currentBoxId !== targetBoxId) {
+            if (currentBoxId !== box.id) {
                 box.insertBefore(selected, box.querySelector(".addtask"));
                 let formData = {
                     description: selected.querySelector(".description").textContent,
-                    statusTask: targetBoxId,
+                    statusTask: box.id,
+                    title: selected.querySelector(".title").textContent,
+                    priorityTask: selected.id,
                 }
                 fetch(`http://localhost:8080/api/user/edit-task/${taskId}?idTaskCollection=${currentList.id}`, {
                     method: "PUT",
@@ -41,7 +42,7 @@ for (let box of boxes) {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify(formData)
-                }).then(response => response.json()).then(data => {
+                }).then(response => response.json()).then(() => {
                     updateCounters();
                 })
             }

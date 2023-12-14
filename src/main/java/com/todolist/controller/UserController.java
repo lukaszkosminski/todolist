@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping("api/user/register")
-    public UserDTO registeUser (@RequestBody UserDTO userDTO){
+    public UserDTO registerUser (@RequestBody UserDTO userDTO){
         return userService.saveUser(userDTO);
     }
 
