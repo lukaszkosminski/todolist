@@ -36,7 +36,7 @@ for (let box of boxes) {
                     title: selected.querySelector(".title").textContent,
                     priorityTask: selected.id,
                 }
-                fetch(`http://localhost:8080/api/user/edit-task/${taskId}?idTaskCollection=${currentList.id}`, {
+                fetch(`http://localhost:8095/api/user/edit-task/${taskId}?idTaskCollection=${currentList.id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"

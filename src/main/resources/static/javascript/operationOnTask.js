@@ -3,14 +3,14 @@ for(let edit of document.querySelectorAll(".edit")) {
         let parent = e.target.parentNode;
         setBlur("10px");
         createShowForm(parent.querySelector(".title").innerText, parent.querySelector(".description").innerText, parent.parentNode.id, parent.id, "Edit Task", edit);
-        sendForm(`http://localhost:8080/api/user/edit-task/${parent.querySelector(".id").innerText}?idTaskCollection=${currentList.id}`, "PUT");
+        sendForm(`http://localhost:8095/api/user/edit-task/${parent.querySelector(".id").innerText}?idTaskCollection=${currentList.id}`, "PUT");
     });
 }
 
 document.querySelector(".btn").addEventListener("click", () =>{
     setBlur("10px");
     createShowForm("", "", "", "", "Add Task", document.querySelector(".btn"));
-    sendForm(`http://localhost:8080/api/user/create-task?idTaskCollection=${currentList.id}`, "POST");
+    sendForm(`http://localhost:8095/api/user/create-task?idTaskCollection=${currentList.id}`, "POST");
 })
 
 function createShowForm(title, description, statusTask, priorityTask, button, element){

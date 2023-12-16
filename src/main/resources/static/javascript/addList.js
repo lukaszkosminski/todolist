@@ -38,7 +38,7 @@ addList.addEventListener("click", () => {
             let formData = {
                 name: document.querySelector(".name").value
             }
-            fetch("http://localhost:8080/api/user/create-task-collection", {
+            fetch("http://localhost:8095/api/user/create-task-collection", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
