@@ -165,9 +165,12 @@ header .addtask .btn{
     transform: translate(-50%, -50%);
     border-radius: 30px;
     width: 70vh;
-    height: 35vh;
+    height: 37vh;
     border: 1px solid black;
     background-color: #d6d4d4;
+}
+.contentDiv .form .btn2{
+    background-color: #ee0000;
 }
 .form{
     height: 100%;

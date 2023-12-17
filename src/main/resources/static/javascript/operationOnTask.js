@@ -2,22 +2,23 @@ for(let edit of document.querySelectorAll(".edit")) {
     edit.addEventListener("click", (e) => {
         let parent = e.target.parentNode;
         setBlur("10px");
-        createShowForm(parent.querySelector(".title").innerText, parent.querySelector(".description").innerText, parent.parentNode.id, parent.id, "Edit Task", edit);
-        sendForm(`http://localhost:8095/api/user/edit-task/${parent.querySelector(".id").innerText}?idTaskCollection=${currentList.id}`, "PUT");
+        createShowForm(parent.querySelector(".title").innerText, parent.querySelector(".description").innerText, parent.parentNode.id, parent.id, "Edit Task", "Delete", edit);
+        sendForm(`http://localhost:8095/api/user/edit-task/${parent.querySelector(".id").innerText}?idTaskCollection=${currentList.id}`, "PUT", '.btn1');
+        sendForm(`http://localhost:8095/api/user/delete-task/${parent.querySelector(".id").innerText}?idTaskCollection=${currentList.id}`, "DELETE", '.btn2');
     });
 }
 
 document.querySelector(".btn").addEventListener("click", () =>{
     setBlur("10px");
-    createShowForm("", "", "", "", "Add Task", document.querySelector(".btn"));
-    sendForm(`http://localhost:8095/api/user/create-task?idTaskCollection=${currentList.id}`, "POST");
+    createShowForm("", "", "", "", "Add Task", null, document.querySelector(".btn"));
+    sendForm(`http://localhost:8095/api/user/create-task?idTaskCollection=${currentList.id}`, "POST", '.btn1');
 })
 
-function createShowForm(title, description, statusTask, priorityTask, button, element){
+function createShowForm(title, description, statusTask, priorityTask, button, button2, element){
     let content = document.querySelector(".content");
         let contentDiv = document.createElement("div");
         contentDiv.classList.add("contentDiv");
-        contentDiv.appendChild(createForm(title, description, statusTask, priorityTask, button));
+        contentDiv.appendChild(createForm(title, description, statusTask, priorityTask, button, button2));
     content.appendChild(contentDiv);
     document.addEventListener("click", function (e) {
         if (!contentDiv.contains(e.target) && element !== e.target) {
@@ -29,7 +30,7 @@ function createShowForm(title, description, statusTask, priorityTask, button, el
     });
 }
 
-function createForm(title, description, statusTask, priorityTask, button){
+function createForm(title, description, statusTask, priorityTask, button, button2){
     let form = document.createElement("form");
     form.classList.add("form");
         let csrfInput = document.createElement("input");
@@ -41,15 +42,15 @@ function createForm(title, description, statusTask, priorityTask, button){
     form.appendChild(createTextInput("Description", description));
     form.appendChild(createRadioInput(["TODO", "IN_PROGRESS", "DONE", "CANCELED"], "StatusTask", statusTask));
     form.appendChild(createRadioInput(["LOW", "MEDIUM", "HIGH"], "PriorityTask", priorityTask));
-        let submitButton = document.createElement("input");
-        submitButton.type = "submit";
-        submitButton.value = button;
-    form.appendChild(submitButton);
+    form.appendChild(createSubmitInput(button, "btn1"));
+        if(button2 !== null){
+            form.appendChild(createSubmitInput(button2, "btn2"));
+        }
     return form;
 }
 
-function sendForm(url, method){
-    document.querySelector('.form').addEventListener("submit", function (event) {
+function sendForm(url, method, trigger){
+    document.querySelector(trigger).addEventListener("click", function (event) {
         event.preventDefault();
         setBlur(0);
         fetch(url, {
@@ -58,7 +59,7 @@ function sendForm(url, method){
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(dataForm())
-        }).then(response => response.json()).then(() => {
+        }).then().then(() => {
             window.location.href = `/list/${currentList.id}`;
         })
     });
@@ -71,6 +72,14 @@ function dataForm(){
         title: document.querySelector('input[name = "Title"]').value,
         description: document.querySelector('input[name = "Description"]').value,
     };
+}
+
+function createSubmitInput(button, classes){
+    let submitButton = document.createElement("input");
+    submitButton.classList.add(classes);
+    submitButton.type = "submit";
+    submitButton.value = button;
+    return submitButton;
 }
 
 function createTextInput(name, value){
