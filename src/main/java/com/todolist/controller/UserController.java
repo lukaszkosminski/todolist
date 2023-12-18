@@ -19,22 +19,22 @@ public class UserController {
     }
 
     @PostMapping("api/user/register")
-    public UserDTO registerUser (@RequestBody UserDTO userDTO){
+    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
         return userService.saveUser(userDTO);
     }
 
     @GetMapping("api/users")
-    public List<UserDTO> getAllUser(){
+    public List<UserDTO> getAllUser() {
         return userService.getAll();
     }
 
     @GetMapping("api/user/{userId}")
-    public Optional<User> getAllUser(@PathVariable long userId){
+    public Optional<User> getAllUser(@PathVariable long userId) {
         return userService.getById(userId);
     }
 
     @DeleteMapping("api/user/{userId}")
-    public void deleteUser(@PathVariable long userId){
+    public void deleteUser(@PathVariable long userId) {
         userService.deleteUser(userId);
     }
 }
