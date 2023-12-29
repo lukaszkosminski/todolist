@@ -3,7 +3,7 @@ services:
     container_name: ToDoList_MySQL
     image: mysql:latest
     ports:
-      - 3306:3306
+      - 127.0.0.1:3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=Password
       - MYSQL_DATABASE=ToDoList
