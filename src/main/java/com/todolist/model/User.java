@@ -70,8 +70,11 @@ public class User implements UserDetails {
     }
 
     public void setPassword(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = "{bcrypt}" + passwordEncoder.encode(password);
     }
-
 }
