@@ -3,6 +3,7 @@ package com.todolist.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +15,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -77,5 +80,18 @@ public class User implements UserDetails {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //        this.password = "{bcrypt}" + passwordEncoder.encode(password);
         this.password = passwordEncoder.encode(password);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(role, user.role) && Objects.equals(taskCollection, user.taskCollection);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName, password, email, role, taskCollection);
     }
 }
