@@ -78,8 +78,7 @@ public class User implements UserDetails {
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        this.password = "{bcrypt}" + passwordEncoder.encode(password);
-        this.password = passwordEncoder.encode(password);
+        this.password = "{bcrypt}" + passwordEncoder.encode(password);
     }
 
     @Override
