@@ -4,6 +4,7 @@ package com.todolist.service;
 import com.todolist.dto.TaskCollectionDTO;
 import com.todolist.dto.TaskCollectionIdDTO;
 import com.todolist.dto.TaskDTO;
+import com.todolist.dto.TaskIdDTO;
 import com.todolist.dto.mapper.TaskMapper;
 import com.todolist.model.*;
 import com.todolist.repository.TaskCollectionRepository;
@@ -16,9 +17,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -222,9 +223,9 @@ class TaskServiceTest {
 
         assertThrows(NotFoundException.class, () -> taskService.getTaskCollection(idTaskCollection, user));
     }
+
     @Test
     @DisplayName("Create Task  - Should return TaskDTO when TaskList found for the user")
-
     void createTaskShouldReturnTaskDTOWhenTaskListfoundForTheUser() throws NotFoundException {
         User user = new User();
         user.setUserId(1);
@@ -256,9 +257,10 @@ class TaskServiceTest {
 
 
         assertNotNull(result);
-        assertEquals(result,taskDTO);
+        assertEquals(result, taskDTO);
         assertNotNull(savedTask.getDateTime());
     }
+
     @Test
     @DisplayName("Edit Task  - Should return new TaskDTO when TaskList found for the user")
     public void editTaskShouldReturnNewTaskDTOWhenTaskListFoundForTheUser() throws Exception {
@@ -284,10 +286,9 @@ class TaskServiceTest {
         when(taskRepository.findByIdTask(idTask)).thenReturn(Optional.of(existingTask));
         when(taskRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Act
-        TaskDTO editedTaskDTO = taskService.editTask(taskDTO, idTask, user,taskCollection.getId());
 
-        // Assert
+        TaskDTO editedTaskDTO = taskService.editTask(taskDTO, idTask, user, taskCollection.getId());
+
         assertNotNull(editedTaskDTO);
 
         verify(taskRepository, times(1)).findByIdTask(idTask);
@@ -297,8 +298,8 @@ class TaskServiceTest {
         assertEquals(taskDTO.getPriorityTask(), existingTask.getPriorityTask());
         assertEquals(taskDTO.getDescription(), existingTask.getDescription());
         assertNotNull(existingTask.getDateTime());
-
     }
+
     @Test
     @DisplayName("Delete Task - When TaskList found for the user")
     void deleteTaskWhenTaskListfoundForTheUser() throws Exception {
@@ -306,21 +307,123 @@ class TaskServiceTest {
         Long taskId = 1L;
 
         User user = new User();
-        TaskCollection taskCollection = new TaskCollection(); 
+        TaskCollection taskCollection = new TaskCollection();
         taskCollection.setId(1L);
 
         Task task = new Task();
         when(taskRepository.findByIdTask(taskId)).thenReturn(java.util.Optional.of(task));
         when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(taskCollection));
 
-
-        // Act
         taskService.deleteTask(taskId, user, taskCollection.getId());
 
-        // Assert
         verify(taskRepository, times(1)).findByIdTask(taskId);
         verify(taskRepository, times(1)).delete(task);
     }
 
+    @Test
+    @DisplayName("Get TaskCollection - With valid ID and user")
+    void getTaskCollectionWithValidIdAndUser() throws NotFoundException {
+        // Arrange
+        Long validId = 1L;
+        User user = new User();
+        TaskCollection validTaskCollection = new TaskCollection();
+        validTaskCollection.setId(1L);
+        when(taskCollectionRepository.findById(validId)).thenReturn(Optional.of(validTaskCollection));
+        when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(validTaskCollection));
+
+        TaskCollectionIdDTO result = taskService.getTaskCollection(validId, user);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    @DisplayName("GetTaskCollections for user")
+    void getTaskCollections_ValidUser_ReturnsListOfTaskCollectionIdDTOs() {
+
+        User user = new User();
+        List<TaskCollection> mockTaskCollections = new ArrayList<>();
+        TaskCollection taskCollection1 = new TaskCollection();
+        TaskCollection taskCollection2 = new TaskCollection();
+        mockTaskCollections.add(taskCollection1);
+        mockTaskCollections.add(taskCollection2);
+
+        when(taskCollectionRepository.findByUser(user)).thenReturn(mockTaskCollections);
+
+        List<TaskCollectionIdDTO> result = taskService.getTaskCollections(user);
+
+        assertNotNull(result);
+        assertEquals(mockTaskCollections.size(), result.size());
+    }
+
+    @Test
+    @DisplayName("Delete Tasks By TaskList-   valid TaskList ID and user")
+    void deleteTasksByTaskList() {
+
+        Long validId = 1L;
+        User user = new User();
+        TaskCollection taskCollection = new TaskCollection();
+        taskCollection.setId(1L);
+
+
+        List<Task> tasksToDelete = Arrays.asList(
+                new Task(),
+                new Task()
+
+        );
+        taskCollection.setTask(tasksToDelete);
+        taskCollection.setId(1L);
+        when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(taskCollection));
+        when(taskRepository.findByTaskCollectionId(taskCollection.getId())).thenReturn(tasksToDelete);
+
+        assertDoesNotThrow(() -> taskService.deleteTasksByTaskList(validId, user));
+
+        verify(taskRepository, times(1)).deleteAll(tasksToDelete);
+    }
+
+    @Test
+    @DisplayName("GetTask returns TaskDTO for valid Task and TaskList ID and user")
+    void getTaskReturnsTaskDTO() throws NotFoundException {
+
+        Long validTaskId = 1L;
+        Long validTaskListId = 2L;
+        User user = new User();
+        TaskCollection taskCollection = new TaskCollection();
+        taskCollection.setId(2L);
+        when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(taskCollection));
+
+        Task mockTask = new Task(/* fill in necessary details */);
+        when(taskRepository.findByIdTask(validTaskId)).thenReturn(java.util.Optional.ofNullable(mockTask));
+
+        TaskDTO result = taskService.getTask(validTaskId, validTaskListId, user);
+
+        assertNotNull(result);
+        assertEquals(TaskMapper.mapToDTO(mockTask), result);
+    }
+
+    @Test
+    @DisplayName("Test getTasks returns list of TaskIdDTOs for valid TaskList ID and user")
+    void getTasks_ValidTaskListIdAndUser_ReturnsListOfTaskIdDTOs() throws NotFoundException {
+
+        Long validTaskListId = 1L;
+        User user = new User();
+        TaskCollection taskCollection = new TaskCollection();
+        taskCollection.setId(1L);
+        when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(taskCollection));
+        List<Task> mockTasks = Arrays.asList(
+                new Task(),
+                new Task()
+        );
+        when(taskRepository.findByTaskCollectionId(validTaskListId)).thenReturn(mockTasks);
+
+        List<TaskIdDTO> expectedDTOs = Arrays.asList(
+                new TaskIdDTO(),
+                new TaskIdDTO()
+        );
+
+        List<TaskIdDTO> result = taskService.getTasks(validTaskListId, user);
+
+        assertNotNull(result);
+        assertEquals(expectedDTOs.size(), result.size());
+    }
 
 }

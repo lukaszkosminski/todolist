@@ -30,7 +30,8 @@ class UserMapperTest {
 
         assertEquals(userDTO.getUserName(), user.getUsername());
         assertEquals(userDTO.getEmail(), user.getEmail());
-        assertTrue(passwordEncoder.matches(userDTO.getPassword(), user.getPassword()));
+
+        assertTrue(passwordEncoder.matches(userDTO.getPassword(), user.getPassword().substring(8)));
 
     }
 
