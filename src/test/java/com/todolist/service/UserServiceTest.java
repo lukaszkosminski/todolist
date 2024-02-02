@@ -52,7 +52,7 @@ class UserServiceTest {
         assertEquals("USER", user.getRole());
 
         verify(userRepository, times(1)).save(any(User.class));
-        verify(taskService, times(1)).saveDefaultEmptyList(any(User.class));
+        verify(taskService, times(1)).saveDefaultTaskCollection(any(User.class));
 
     }
 
@@ -78,7 +78,7 @@ class UserServiceTest {
         List<UserDTO> expectedUserDTOList = UserMapper.ListUserMapToUserDTO(userList);
 
         when(userRepository.findAll()).thenReturn(userList);
-        List<UserDTO> actualUserDTOList = userService.getAll();
+        List<UserDTO> actualUserDTOList = userService.getUsers();
 
         assertIterableEquals(expectedUserDTOList, actualUserDTOList);
 
@@ -98,7 +98,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(optionalUser);
 
-        Optional<User> result = userService.getById(userId);
+        Optional<User> result = userService.getUserById(userId);
 
         assertTrue(result.isPresent());
         assertEquals(user, result.get());

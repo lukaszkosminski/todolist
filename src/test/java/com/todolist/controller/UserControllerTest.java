@@ -45,7 +45,7 @@ class UserControllerTest {
     public void testGetAllUser() {
         List<UserDTO> users = new ArrayList<>();
 
-        when(userService.getAll()).thenReturn(users);
+        when(userService.getUsers()).thenReturn(users);
 
         List<UserDTO> result = userController.getAllUser();
 
@@ -58,7 +58,7 @@ class UserControllerTest {
         long userId = 1L;
         User user = new User();
 
-        when(userService.getById(userId)).thenReturn(Optional.of(user));
+        when(userService.getUserById(userId)).thenReturn(Optional.of(user));
 
         Optional<User> result = userController.getAllUser(userId);
 
