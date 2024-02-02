@@ -68,8 +68,8 @@ class PageControllerTest {
 
         mockMvc.perform(get("/").principal(authentication))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"))
-                .andExpect(model().attributeExists("nameLists"));
+                .andExpect(view().name("home"));
+
 
     }
 

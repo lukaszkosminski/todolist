@@ -44,7 +44,7 @@ class TaskServiceTest {
     public void shouldSaveDefaultCollection() {
         User user = new User();
 
-        TaskCollectionDTO result = taskService.saveDefaultEmptyList(user);
+        TaskCollectionDTO result = taskService.saveDefaultTaskCollection(user);
 
         assertNotNull(result);
         assertEquals("default", result.getName());
@@ -59,7 +59,7 @@ class TaskServiceTest {
         TaskCollection expectedTaskCollection = new TaskCollection();
         when(taskCollectionRepository.findById(idTaskCollection)).thenReturn(Optional.of(expectedTaskCollection));
 
-        TaskCollection resultTaskCollection = taskService.findTasklist(idTaskCollection);
+        TaskCollection resultTaskCollection = taskService.findTaskCollection(idTaskCollection);
 
         assertNotNull(resultTaskCollection);
         assertEquals(expectedTaskCollection, resultTaskCollection);
@@ -71,7 +71,7 @@ class TaskServiceTest {
 
         Long idTaskCollection = 1L;
 
-        assertThrows(NotFoundException.class, () -> taskService.findTasklist(idTaskCollection));
+        assertThrows(NotFoundException.class, () -> taskService.findTaskCollection(idTaskCollection));
     }
 
     @Test
@@ -87,7 +87,7 @@ class TaskServiceTest {
 
         when(taskCollectionRepository.findByUser(user)).thenReturn(taskListByUser);
 
-        boolean result = taskService.userContainsTaskListId(user, idTaskCollection);
+        boolean result = taskService.userContainsTaskCollectionId(user, idTaskCollection);
 
         assertTrue(result);
     }
@@ -99,7 +99,7 @@ class TaskServiceTest {
         User user = new User();
         Long idTaskCollection = 1L;
 
-        boolean result = taskService.userContainsTaskListId(user, idTaskCollection);
+        boolean result = taskService.userContainsTaskCollectionId(user, idTaskCollection);
 
         assertFalse(result);
     }
@@ -175,7 +175,7 @@ class TaskServiceTest {
         taskCollection.setId(idTaskCollection);
         user.setTaskCollection(List.of(taskCollection));
         Task task = new Task();
-        taskCollection.setTask(List.of(task));
+        taskCollection.setTaskList(List.of(task));
         task.setTaskCollection(taskCollection);
 
         assertThrows(NotFoundException.class, () -> taskService.deleteTaskCollection(user, idTaskCollection));
@@ -243,7 +243,7 @@ class TaskServiceTest {
 
 
         when(taskCollectionRepository.findById(idTaskCollection)).thenReturn(Optional.of(taskCollection));
-        TaskCollection tasklist = taskService.findTasklist(taskCollection.getId());
+        TaskCollection tasklist = taskService.findTaskCollection(taskCollection.getId());
         tasklist.setUser(user);
 
         when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(tasklist));
@@ -370,12 +370,12 @@ class TaskServiceTest {
                 new Task()
 
         );
-        taskCollection.setTask(tasksToDelete);
+        taskCollection.setTaskList(tasksToDelete);
         taskCollection.setId(1L);
         when(taskCollectionRepository.findByUser(user)).thenReturn(List.of(taskCollection));
         when(taskRepository.findByTaskCollectionId(taskCollection.getId())).thenReturn(tasksToDelete);
 
-        assertDoesNotThrow(() -> taskService.deleteTasksByTaskList(validId, user));
+        assertDoesNotThrow(() -> taskService.deleteTasksByTaskCollection(validId, user));
 
         verify(taskRepository, times(1)).deleteAll(tasksToDelete);
     }

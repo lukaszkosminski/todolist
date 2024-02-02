@@ -3,6 +3,7 @@ package com.todolist.controller;
 import com.todolist.dto.UserDTO;
 import com.todolist.model.User;
 import com.todolist.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +26,12 @@ public class UserController {
 
     @GetMapping("api/users")
     public List<UserDTO> getAllUser() {
-        return userService.getAll();
+        return userService.getUsers();
     }
 
     @GetMapping("api/user/{userId}")
     public Optional<User> getAllUser(@PathVariable long userId) {
-        return userService.getById(userId);
+        return userService.getUserById(userId);
     }
 
     @DeleteMapping("api/user/{userId}")

@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name = "task_collection")
 public class TaskCollection {
     @Id
@@ -22,5 +21,5 @@ public class TaskCollection {
     private User user;
 
     @OneToMany(mappedBy = "taskCollection", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> task;
+    private List<Task> taskList;
 }

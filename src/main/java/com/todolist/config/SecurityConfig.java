@@ -1,6 +1,10 @@
 package com.todolist.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -8,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -30,6 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/")
                 .and()
                 .csrf().disable();
+    }
+
+    @EventListener
+    public void handleAuthenticationSuccess(AuthenticationSuccessEvent event) {
+        String username = event.getAuthentication().getName();
+        log.info("User successfully logged in : " + username);
+    }
+
+    @EventListener
+    public void handleLogoutSuccess(LogoutSuccessEvent event) {
+        String username = event.getAuthentication().getName();
+        log.info("User successfully logged out: " + username);
     }
 
 }
