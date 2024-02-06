@@ -1,5 +1,6 @@
 package com.todolist.controller;
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.model.User;
 import com.todolist.service.TaskService;
@@ -25,8 +26,11 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String homePage() {
-//        model.addAttribute("nameLists", taskService.getTaskCollections(user));
+    public String homePage(@AuthenticationPrincipal User user, Model model) {
+        if(user == null){
+            return "home";
+        }
+        model.addAttribute("nameLists", taskService.getTaskCollections(user));
         return "home";
     }
 
@@ -54,8 +58,8 @@ public class PageController {
     }
 
     @PostMapping("/register")
-    public String addItem(UserDTO userDTO) {
-        userService.saveUser(userDTO);
+    public String addItem(UserCreateDTO userCreateDTO) {
+        userService.createUser(userCreateDTO);
         return "redirect:/";
     }
 }

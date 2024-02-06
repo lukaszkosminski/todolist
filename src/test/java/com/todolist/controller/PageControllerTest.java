@@ -1,8 +1,6 @@
 package com.todolist.controller;
 
-import com.todolist.dto.TaskCollectionIdDTO;
-import com.todolist.dto.TaskIdDTO;
-import com.todolist.dto.UserDTO;
+import com.todolist.dto.*;
 import com.todolist.model.TaskCollection;
 import com.todolist.model.User;
 import com.todolist.repository.TaskCollectionRepository;
@@ -18,10 +16,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,31 +62,32 @@ class PageControllerTest {
     @DisplayName("Home Page adds 'nameLists' attribute to model")
     void homePage_AddsAttributeToModel() throws Exception {
 
-        User mockUser = new User(/* fill in necessary details */);
-        TaskCollectionIdDTO taskCollectionIdDTO = new TaskCollectionIdDTO();
-        when(taskService.getTaskCollections(mockUser)).thenReturn(List.of(taskCollectionIdDTO));
+        User mockUser = new User();
+        mockUser.setRole("USER");
+        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
+        when(taskService.getTaskCollections(mockUser)).thenReturn(List.of(taskCollectionDTO));
+        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(mockUser.getRole()));
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(mockUser, null);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(mockUser, null,authorities);
+        System.out.println(authentication.isAuthenticated());
 
-        mockMvc.perform(get("/").principal(authentication))
+        mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"));
-
-
     }
 
     @Test
     @DisplayName("ListPage method returns list view and tasks, currentList, nameLists attributes")
     void testListPage() throws NotFoundException {
-
+        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
         Long listId = 1L;
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
 
-        List<TaskIdDTO> tasksIdDTO = new ArrayList<>();
-        tasksIdDTO.add(new TaskIdDTO());
+        List<TaskDTO> tasksDTO = new ArrayList<>();
+        tasksDTO.add(new TaskDTO());
 
-        TaskCollectionIdDTO currentList = new TaskCollectionIdDTO();
+        TaskCollectionDTO currentList = new TaskCollectionDTO();
         currentList.setId(listId);
         currentList.setName("test");
 
@@ -94,13 +97,13 @@ class PageControllerTest {
         nameLists.add(taskCollection);
         user.setTaskCollection(nameLists);
 
-        when(taskService.getTasks(listId, user)).thenReturn(tasksIdDTO);
+        when(taskService.getTasks(listId, user)).thenReturn(tasksDTO);
         when(taskService.getTaskCollection(listId, user)).thenReturn(currentList);
         when(taskService.getTaskCollections(user)).thenReturn(List.of(currentList));
 
         String result = pageController.listPage(listId, user, model);
 
-        verify(model).addAttribute("tasks", tasksIdDTO);
+        verify(model).addAttribute("tasks", tasksDTO);
         verify(model).addAttribute("currentList", currentList);
         verify(model).addAttribute("nameLists", List.of(currentList));
         assertEquals("list", result);
@@ -130,10 +133,10 @@ class PageControllerTest {
     @Test
     @DisplayName("Test addItem method")
     void testAddItem() {
-        UserDTO userDTO = new UserDTO();
-        String result = pageController.addItem(userDTO);
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        String result = pageController.addItem(userCreateDTO);
 
-        verify(userService, times(1)).saveUser(userDTO);
+        verify(userService, times(1)).createUser(userCreateDTO);
 
         assertEquals("redirect:/", result);
     }

@@ -12,8 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class TaskDTO {
-    private Long idTask;
+public class TaskCreateDTO {
     private PriorityTask priorityTask;
     private String title;
     private String description;

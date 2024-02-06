@@ -1,5 +1,6 @@
 package com.todolist.service;
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.dto.mapper.UserMapper;
 import com.todolist.model.User;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,26 +33,26 @@ class UserServiceTest {
     @DisplayName("Should save user and call saveDefaultEmptyList")
     void shouldSaveUserAndCallSaveDefaultEmptyList() {
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserName("testUser");
-        userDTO.setPassword("testPass");
-        userDTO.setEmail("test@test.eu");
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        userCreateDTO.setUserName("testUser");
+        userCreateDTO.setPassword("testPass");
+        userCreateDTO.setEmail("test@test.eu");
 
-        User user = UserMapper.MapToUser(userDTO);
+        User user = UserMapper.userCreateDTOMapToUser(userCreateDTO);
         user.setRole("USER");
         user.setUserId(1L);
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        UserDTO result = userService.saveUser(userDTO);
+        UserDTO result = userService.createUser(userCreateDTO);
 
         assertNotNull(result);
-        assertEquals(userDTO.getUserName(), result.getUserName());
-        assertEquals(userDTO.getPassword(), result.getPassword());
+        assertEquals(userCreateDTO.getUserName(), result.getUserName());
+        assertEquals(userCreateDTO.getPassword(), result.getPassword());
         assertEquals("USER", user.getRole());
 
         verify(userRepository, times(1)).save(any(User.class));
-        verify(taskService, times(1)).saveDefaultTaskCollection(any(User.class));
+        verify(taskService, times(1)).createDefaultTaskCollection(any(User.class));
 
     }
 

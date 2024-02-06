@@ -21,4 +21,4 @@ ToDoList is a simple and intuitive task management application.
    _cd todolist_
 2. Build the database using docker-compose <br>
    _docker-compose up -d --build_ <br>
-3. Open your web browser and go to http://localhost:8080.
+3. Open your web browser and go to http://localhost:8095.
