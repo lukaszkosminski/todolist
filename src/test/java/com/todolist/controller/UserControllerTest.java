@@ -1,7 +1,9 @@
 package com.todolist.controller;
 
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
+import com.todolist.dto.mapper.UserMapper;
 import com.todolist.model.User;
 import com.todolist.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -31,13 +33,13 @@ class UserControllerTest {
     @Test
     @DisplayName("Test Register User")
     public void testRegisterUser() {
-        UserDTO userDTO = new UserDTO();
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
 
-        when(userService.saveUser(any(UserDTO.class))).thenReturn(userDTO);
+        when(userService.createUser(any(UserCreateDTO.class))).thenReturn(UserMapper.userCreateDTOMapToUserDTO(userCreateDTO));
 
-        UserDTO result = userController.registerUser(userDTO);
+        UserDTO result = userController.registerUser(userCreateDTO);
 
-        assertEquals(userDTO, result);
+        assertEquals(UserMapper.userCreateDTOMapToUserDTO(userCreateDTO), result);
     }
 
     @Test

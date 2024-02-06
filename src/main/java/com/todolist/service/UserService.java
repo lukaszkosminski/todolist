@@ -1,13 +1,12 @@
 package com.todolist.service;
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.dto.mapper.UserMapper;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,24 +17,23 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final TaskService taskService;
-    private final Marker secretMarker;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, TaskService taskService, @Qualifier("SECRET") Marker secretMarker) {
+    public UserService(UserRepository userRepository, TaskService taskService) {
         this.userRepository = userRepository;
         this.taskService = taskService;
-        this.secretMarker = secretMarker;
+
     }
 
-    public UserDTO saveUser(UserDTO userDTO) {
-        User user = UserMapper.MapToUser(userDTO);
+    public UserDTO createUser(UserCreateDTO userCreateDTO) {
+        User user = UserMapper.userCreateDTOMapToUser(userCreateDTO);
         user.setRole("USER");
         userRepository.save(user);
-        log.info(secretMarker, "User saved successfully. Username: {}, Pass: {}, Email: {}", user.getUsername(), user.getPassword(), user.getEmail());
-        taskService.saveDefaultTaskCollection(user);
+        log.info("User saved successfully. Username: {}, Pass: {}, Email: {}", user.getUsername(), user.getPassword(), user.getEmail());
+        taskService.createDefaultTaskCollection(user);
         log.info("Default empty list saved for user. Username: {}", user.getUsername());
-        return userDTO;
+        return UserMapper.userCreateDTOMapToUserDTO(userCreateDTO);
     }
 
     public List<UserDTO> getUsers() {

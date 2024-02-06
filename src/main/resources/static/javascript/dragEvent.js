@@ -36,6 +36,8 @@ for (let box of boxes) {
                     title: selected.querySelector(".title").textContent,
                     priorityTask: selected.id,
                 }
+                console.log("taskId:", taskId);
+                console.log("currentList.id:", currentList.id);
                 fetch(`http://localhost:8095/api/user/edit-task/${taskId}?idTaskCollection=${currentList.id}`, {
                     method: "PUT",
                     headers: {

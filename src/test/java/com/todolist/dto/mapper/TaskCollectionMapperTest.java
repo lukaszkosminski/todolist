@@ -16,7 +16,7 @@ class TaskCollectionMapperTest {
         TaskCollectionDTO taskListDTO = new TaskCollectionDTO();
         taskListDTO.setName("Test Task Collection");
 
-        TaskCollection result = TaskCollectionMapper.mapToTaskList(taskListDTO);
+        TaskCollection result = TaskCollectionMapper.taskCollectionDTOMapToTaskCollection(taskListDTO);
 
         assertEquals(taskListDTO.getName(), result.getName());
 
@@ -29,7 +29,7 @@ class TaskCollectionMapperTest {
         TaskCollection taskList = new TaskCollection();
         taskList.setName("Test Task Collection");
 
-        TaskCollectionDTO result = TaskCollectionMapper.mapToDTO(taskList);
+        TaskCollectionDTO result = TaskCollectionMapper.taskCollectionMapToTaskCollectionDTO(taskList);
 
         assertEquals(taskList.getName(), result.getName());
 

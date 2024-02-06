@@ -5,11 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public class TaskCollectionDTO {
-    private Long id;
-    private String name;
+public class UserCreateDTO {
+
+    private String userName;
+
+    private String password;
+
+    private String email;
+
 }

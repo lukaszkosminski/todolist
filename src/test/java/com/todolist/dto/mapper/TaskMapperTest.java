@@ -41,7 +41,7 @@ class TaskMapperTest {
         task.setStatusTask(StatusTask.TODO);
         task.setTitle("test title");
 
-        TaskDTO taskDTO = TaskMapper.mapToDTO(task);
+        TaskDTO taskDTO = TaskMapper.taskMapToTaskDTO(task);
 
         assertEquals(task.getDescription(), taskDTO.getDescription());
         assertEquals(task.getPriorityTask(), taskDTO.getPriorityTask());

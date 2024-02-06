@@ -26,7 +26,7 @@ class UserMapperTest {
         userDTO.setPassword("testPass");
         userDTO.setEmail("test@email.eu");
 
-        User user = UserMapper.MapToUser(userDTO);
+        User user = UserMapper.userDTOMapToUser(userDTO);
 
         assertEquals(userDTO.getUserName(), user.getUsername());
         assertEquals(userDTO.getEmail(), user.getEmail());
@@ -44,7 +44,7 @@ class UserMapperTest {
         user.setEmail("test@email.eu");
         user.setPassword("testPass");
 
-        UserDTO userDTO = UserMapper.MapToUserDTO(user);
+        UserDTO userDTO = UserMapper.userMapToUserDTO(user);
 
         assertEquals(user.getUsername(), userDTO.getUserName());
         assertEquals(user.getEmail(), userDTO.getEmail());

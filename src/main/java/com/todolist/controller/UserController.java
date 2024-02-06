@@ -1,5 +1,6 @@
 package com.todolist.controller;
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.model.User;
 import com.todolist.service.UserService;
@@ -20,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping("api/user/register")
-    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
-        return userService.saveUser(userDTO);
+    public UserDTO registerUser(@RequestBody UserCreateDTO userCreateDTO) {
+        return userService.createUser(userCreateDTO);
     }
 
     @GetMapping("api/users")

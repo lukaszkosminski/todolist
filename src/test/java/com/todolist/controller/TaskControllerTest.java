@@ -1,9 +1,6 @@
 package com.todolist.controller;
 
-import com.todolist.dto.TaskCollectionDTO;
-import com.todolist.dto.TaskCollectionIdDTO;
-import com.todolist.dto.TaskDTO;
-import com.todolist.dto.TaskIdDTO;
+import com.todolist.dto.*;
 import com.todolist.model.User;
 import com.todolist.service.TaskService;
 import javassist.NotFoundException;
@@ -36,34 +33,34 @@ class TaskControllerTest {
     @Test
     @DisplayName("Test createTask method")
     void testCreateTask() throws NotFoundException {
-        TaskDTO taskDTO = new TaskDTO();
+        TaskCreateDTO taskCreateDTO = new TaskCreateDTO();
         Long idTaskCollection = 1L;
         User user = new User();
 
         TaskDTO expectedTaskDTO = new TaskDTO();
 
-        when(taskService.createTask(taskDTO, idTaskCollection, user)).thenReturn(expectedTaskDTO);
+        when(taskService.createTask(taskCreateDTO, idTaskCollection, user)).thenReturn(expectedTaskDTO);
 
-        TaskDTO result = taskController.createTask(taskDTO, idTaskCollection, user);
+        TaskDTO result = taskController.createTask(taskCreateDTO, idTaskCollection, user);
 
         assertEquals(expectedTaskDTO, result);
 
-        verify(taskService, times(1)).createTask(taskDTO, idTaskCollection, user);
+        verify(taskService, times(1)).createTask(taskCreateDTO, idTaskCollection, user);
     }
 
     @Test
     @DisplayName("Test editTask method")
     void testEditTask() throws Exception {
-        TaskDTO taskDTO = new TaskDTO();
+        TaskEditDTO taskEditDTO = new TaskEditDTO();
         Long idTask = 1L;
         Long idTaskCollection = 1L;
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.editTask(taskDTO, idTask, user, idTaskCollection)).thenReturn(new TaskDTO());
+        when(taskService.editTask(taskEditDTO, idTask, user, idTaskCollection)).thenReturn(new TaskDTO());
 
-        TaskDTO result = taskController.editTask(taskDTO, idTask, idTaskCollection, user);
+        TaskDTO result = taskController.editTask(taskEditDTO, idTask, idTaskCollection, user);
 
-        verify(taskService, times(1)).editTask(taskDTO, idTask, user, idTaskCollection);
+        verify(taskService, times(1)).editTask(taskEditDTO, idTask, user, idTaskCollection);
         assertEquals(new TaskDTO(), result);
     }
 
@@ -101,40 +98,40 @@ class TaskControllerTest {
         Long idTaskCollection = 1L;
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.getTasks(idTaskCollection, user)).thenReturn(Collections.singletonList(new TaskIdDTO()));
+        when(taskService.getTasks(idTaskCollection, user)).thenReturn(Collections.singletonList(new TaskDTO()));
 
-        List<TaskIdDTO> result = taskController.getTasks(idTaskCollection, user);
+        List<TaskDTO> result = taskController.getTasks(idTaskCollection, user);
 
         verify(taskService, times(1)).getTasks(idTaskCollection, user);
-        assertEquals(Collections.singletonList(new TaskIdDTO()), result);
+        assertEquals(Collections.singletonList(new TaskDTO()), result);
     }
 
     @Test
     @DisplayName("Test createTaskCollection method")
     void testCreateTaskCollection() {
-        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
+        TaskCollectionCreateDTO taskCollectionCreateDTO = new TaskCollectionCreateDTO();
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.createTaskCollection(taskCollectionDTO, user)).thenReturn(new TaskCollectionIdDTO());
+        when(taskService.createTaskCollection(taskCollectionCreateDTO, user)).thenReturn(new TaskCollectionDTO());
 
-        TaskCollectionIdDTO result = taskController.createTaskCollection(taskCollectionDTO, user);
+        TaskCollectionDTO result = taskController.createTaskCollection(taskCollectionCreateDTO, user);
 
-        verify(taskService, times(1)).createTaskCollection(taskCollectionDTO, user);
-        assertEquals(new TaskCollectionIdDTO(), result);
+        verify(taskService, times(1)).createTaskCollection(taskCollectionCreateDTO, user);
+        assertEquals(new TaskCollectionDTO(), result);
     }
 
     @Test
     @DisplayName("Test editTaskCollection method")
     void testEditTaskCollection() throws NotFoundException {
-        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
+        TaskCollectionEditDTO taskCollectionEditDTO = new TaskCollectionEditDTO();
         Long idTaskCollection = 1L;
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.editTaskCollection(taskCollectionDTO, user, idTaskCollection)).thenReturn(new TaskCollectionDTO());
+        when(taskService.editTaskCollection(taskCollectionEditDTO, user, idTaskCollection)).thenReturn(new TaskCollectionDTO());
 
-        TaskCollectionDTO result = taskController.editTaskCollection(taskCollectionDTO, user, idTaskCollection);
+        TaskCollectionDTO result = taskController.editTaskCollection(taskCollectionEditDTO, user, idTaskCollection);
 
-        verify(taskService, times(1)).editTaskCollection(taskCollectionDTO, user, idTaskCollection);
+        verify(taskService, times(1)).editTaskCollection(taskCollectionEditDTO, user, idTaskCollection);
         assertEquals(new TaskCollectionDTO(), result);
     }
 
@@ -156,12 +153,12 @@ class TaskControllerTest {
         Long idTaskCollection = 1L;
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.getTaskCollection(idTaskCollection, user)).thenReturn(new TaskCollectionIdDTO());
+        when(taskService.getTaskCollection(idTaskCollection, user)).thenReturn(new TaskCollectionDTO());
 
-        TaskCollectionIdDTO result = taskController.getTaskCollection(idTaskCollection, user);
+        TaskCollectionDTO result = taskController.getTaskCollection(idTaskCollection, user);
 
         verify(taskService, times(1)).getTaskCollection(idTaskCollection, user);
-        assertEquals(new TaskCollectionIdDTO(), result);
+        assertEquals(new TaskCollectionDTO(), result);
     }
 
     @Test
@@ -169,12 +166,12 @@ class TaskControllerTest {
     void testGetTaskListCollections() {
         User user = new User();
         when(authentication.getPrincipal()).thenReturn(user);
-        when(taskService.getTaskCollections(user)).thenReturn(Collections.singletonList(new TaskCollectionIdDTO()));
+        when(taskService.getTaskCollections(user)).thenReturn(Collections.singletonList(new TaskCollectionDTO()));
 
-        List<TaskCollectionIdDTO> result = taskController.getTaskListCollections(user);
+        List<TaskCollectionDTO> result = taskController.getTaskListCollections(user);
 
         verify(taskService, times(1)).getTaskCollections(user);
-        assertEquals(Collections.singletonList(new TaskCollectionIdDTO()), result);
+        assertEquals(Collections.singletonList(new TaskCollectionDTO()), result);
     }
 
 }
