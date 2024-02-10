@@ -19,6 +19,10 @@ public class UserDTO {
 
     private String email;
 
+    private String role;
+
+    private long userId;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,10 +1,12 @@
 package com.todolist.dto.mapper;
 
+import com.todolist.dto.TaskCollectionCreateDTO;
 import com.todolist.dto.TaskCollectionDTO;
 import com.todolist.model.TaskCollection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TaskCollectionMapperTest {
@@ -35,4 +37,18 @@ class TaskCollectionMapperTest {
 
     }
 
+    @Test
+    @DisplayName("Test map TaskCollectionCreateDTO to TaskCollection")
+    public void testTaskCollectionCreateDTOMapToTaskCollection() {
+        // Arrange
+        TaskCollectionCreateDTO taskCollectionCreateDTO = new TaskCollectionCreateDTO();
+        taskCollectionCreateDTO.setName("Sample Collection");
+
+        // Act
+        TaskCollection resultTaskCollection = TaskCollectionMapper.taskCollectionCreateDTOMapToTaskCollection(taskCollectionCreateDTO);
+
+        // Assert
+        assertNotNull(resultTaskCollection);
+        assertEquals(taskCollectionCreateDTO.getName(), resultTaskCollection.getName());
+    }
 }

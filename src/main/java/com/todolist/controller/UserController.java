@@ -27,16 +27,19 @@ public class UserController {
 
     @GetMapping("api/users")
     public List<UserDTO> getAllUser() {
+        //TODO implement admin role
         return userService.getUsers();
     }
 
     @GetMapping("api/user/{userId}")
-    public Optional<User> getAllUser(@PathVariable long userId) {
+    public UserDTO getAllUser(@PathVariable long userId) {
+        //TODO implement admin role
         return userService.getUserById(userId);
     }
 
     @DeleteMapping("api/user/{userId}")
     public void deleteUser(@PathVariable long userId) {
+        //TODO implement admin role
         userService.deleteUser(userId);
     }
 }

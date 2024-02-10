@@ -1,5 +1,6 @@
 package com.todolist.dto.mapper;
 
+import com.todolist.dto.TaskCreateDTO;
 import com.todolist.dto.TaskDTO;
 import com.todolist.model.PriorityTask;
 import com.todolist.model.StatusTask;
@@ -7,6 +8,7 @@ import com.todolist.model.Task;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TaskMapperTest {
@@ -50,4 +52,24 @@ class TaskMapperTest {
 
     }
 
+    @Test
+    @DisplayName("Test map TaskCreate to Task")
+    public void testTaskCreateDTOMapToTask() {
+
+        TaskCreateDTO taskCreateDTO = new TaskCreateDTO();
+        taskCreateDTO.setPriorityTask(PriorityTask.HIGH);
+        taskCreateDTO.setDescription("Sample description");
+        taskCreateDTO.setTitle("Sample title");
+        taskCreateDTO.setStatusTask(StatusTask.IN_PROGRESS);
+
+
+        Task resultTask = TaskMapper.taskCreateDTOMapToTask(taskCreateDTO);
+
+
+        assertNotNull(resultTask);
+        assertEquals(taskCreateDTO.getPriorityTask(), resultTask.getPriorityTask());
+        assertEquals(taskCreateDTO.getDescription(), resultTask.getDescription());
+        assertEquals(taskCreateDTO.getTitle(), resultTask.getTitle());
+        assertEquals(taskCreateDTO.getStatusTask(), resultTask.getStatusTask());
+    }
 }

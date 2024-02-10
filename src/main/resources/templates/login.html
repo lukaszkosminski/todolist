@@ -8,48 +8,48 @@
     <link rel="stylesheet" href="/css/formAnimationPlaceholder.css">
 </head>
 <body>
-    <div class="sidebar">
-        <ul>
+<div class="sidebar">
+    <ul>
+        <li>
+            <a th:href="@{/}">
+                <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                <span class="text">Home</span>
+            </a>
+        </li>
+        <div class="bottom">
             <li>
-                <a th:href="@{/}">
-                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
-                    <span class="text">Home</span>
+                <a th:href="@{/login}">
+                    <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
+                    <span class="text">Login</span>
                 </a>
             </li>
-            <div class="bottom">
-                <li>
-                    <a th:href="@{/login}">
-                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
-                        <span class="text">Login</span>
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </div>
-    <main>
-        <div class="content">
-            <form method="post" autocomplete="off">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <div class="taskinput">
-                        <input required="" type="text" name="username" class="input" autofocus>
-                        <label class="label">Username</label>
-                    </div>
-                    <img src="/css/image/user.svg" width="30px">
-                </div>
-                <div class="input-box">
-                    <div class="taskinput">
-                        <input required="" type="password" name="password" class="input">
-                        <label class="label">Password</label>
-                    </div>
-                    <img src="/css/image/lock.svg" width="30px">
-                </div>
-                <button type="submit" class="btn">Login</button>
-                <div class="register-link">
-                    <p>Don't have an account? <a th:href="@{/register}">Register</a></p>
-                </div>
-            </form>
         </div>
-    </main>
+    </ul>
+</div>
+<main>
+    <div class="content">
+        <form method="post" autocomplete="off">
+            <h1>Login</h1>
+            <div class="input-box">
+                <div class="taskinput">
+                    <input required="" type="text" name="username" class="input" autofocus>
+                    <label class="label">Username</label>
+                </div>
+                <img src="/css/image/user.svg" width="30px">
+            </div>
+            <div class="input-box">
+                <div class="taskinput">
+                    <input required="" type="password" name="password" class="input">
+                    <label class="label">Password</label>
+                </div>
+                <img src="/css/image/lock.svg" width="30px">
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="register-link">
+                <p>Don't have an account? <a th:href="@{/register}">Register</a></p>
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>
