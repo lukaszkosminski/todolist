@@ -22,6 +22,7 @@ public class TaskMapper {
         taskDTO.setDescription(task.getDescription());
         taskDTO.setPriorityTask(task.getPriorityTask());
         taskDTO.setStatusTask(task.getStatusTask());
+        taskDTO.setDateTime(task.getDateTime());
         return taskDTO;
     }
 

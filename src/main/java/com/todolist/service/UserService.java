@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -30,10 +31,11 @@ public class UserService {
         User user = UserMapper.userCreateDTOMapToUser(userCreateDTO);
         user.setRole("USER");
         userRepository.save(user);
-        log.info("User saved successfully. Username: {}, Pass: {}, Email: {}", user.getUsername(), user.getPassword(), user.getEmail());
+        String maskedPassword = user.getPassword().substring(0, 11) + "..." + user.getPassword().substring(user.getPassword().length() - 3);
+        log.info("User saved successfully. Username: {}, Pass: {}, Email: {}", user.getUsername(), maskedPassword, user.getEmail());
         taskService.createDefaultTaskCollection(user);
         log.info("Default empty list saved for user. Username: {}", user.getUsername());
-        return UserMapper.userCreateDTOMapToUserDTO(userCreateDTO);
+        return UserMapper.userMapToUserDTO(user);
     }
 
     public List<UserDTO> getUsers() {
@@ -41,16 +43,17 @@ public class UserService {
         return UserMapper.ListUserMapToUserDTO(userRepository.findAll());
     }
 
-    public Optional<User> getUserById(long id) {
+    public UserDTO getUserById(long id) {
 
         Optional<User> userOptional = userRepository.findById(id);
 
         if (userOptional.isPresent()) {
             log.info("User found with ID {}: {}", id, userOptional.get().getUsername());
+            return UserMapper.userMapToUserDTO(userOptional.get());
         } else {
             log.info("No user found with ID: {}", id);
         }
-        return userOptional;
+        return null;
     }
 
     public void deleteUser(long id) {

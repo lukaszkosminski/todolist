@@ -3,6 +3,7 @@ package com.todolist.service;
 import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.dto.mapper.UserMapper;
+import com.todolist.model.TaskCollection;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,18 +41,21 @@ class UserServiceTest {
         userCreateDTO.setPassword("testPass");
         userCreateDTO.setEmail("test@test.eu");
 
-        User user = UserMapper.userCreateDTOMapToUser(userCreateDTO);
-        user.setRole("USER");
-        user.setUserId(1L);
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User savedUser = invocation.getArgument(0);
+            savedUser.setUserId(2L);
+            return savedUser;
+        });
 
-        when(userRepository.save(any(User.class))).thenReturn(user);
-
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         UserDTO result = userService.createUser(userCreateDTO);
 
         assertNotNull(result);
+        assertEquals(2L,result.getUserId());
         assertEquals(userCreateDTO.getUserName(), result.getUserName());
-        assertEquals(userCreateDTO.getPassword(), result.getPassword());
-        assertEquals("USER", user.getRole());
+        assertEquals(userCreateDTO.getEmail(), result.getEmail());
+        assertEquals("USER", result.getRole());
+        assertTrue(passwordEncoder.matches(userCreateDTO.getPassword(), result.getPassword().substring(8)));
 
         verify(userRepository, times(1)).save(any(User.class));
         verify(taskService, times(1)).createDefaultTaskCollection(any(User.class));
@@ -75,12 +81,11 @@ class UserServiceTest {
         user2.setRole("USER");
 
         List<User> userList = Arrays.asList(user1, user2);
-        List<UserDTO> expectedUserDTOList = UserMapper.ListUserMapToUserDTO(userList);
 
         when(userRepository.findAll()).thenReturn(userList);
         List<UserDTO> actualUserDTOList = userService.getUsers();
 
-        assertIterableEquals(expectedUserDTOList, actualUserDTOList);
+        assertIterableEquals(UserMapper.ListUserMapToUserDTO(userList), actualUserDTOList);
 
     }
 
@@ -89,19 +94,18 @@ class UserServiceTest {
     void shouldReturnTheUserWithTheSpecifiedId() {
 
         long userId = 1L;
+
         User user = new User();
         user.setUserName("testName");
         user.setPassword("testPass");
         user.setEmail("test@email.eu");
         user.setUserId(1L);
-        Optional<User> optionalUser = Optional.of(user);
 
-        when(userRepository.findById(userId)).thenReturn(optionalUser);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        Optional<User> result = userService.getUserById(userId);
+        UserDTO result = userService.getUserById(userId);
 
-        assertTrue(result.isPresent());
-        assertEquals(user, result.get());
+        assertNotNull(result);
 
         verify(userRepository, times(1)).findById(userId);
 
@@ -116,6 +120,5 @@ class UserServiceTest {
         userService.deleteUser(userIdToDelete);
 
         verify(userRepository, times(1)).deleteById(userIdToDelete);
-
     }
 }

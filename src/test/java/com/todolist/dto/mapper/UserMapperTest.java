@@ -1,5 +1,6 @@
 package com.todolist.dto.mapper;
 
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.dto.UserDTO;
 import com.todolist.model.User;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -80,4 +82,39 @@ class UserMapperTest {
         assertEquals(users.get(1).getPassword(), result.get(1).getPassword());
     }
 
+    @Test
+    @DisplayName("Test map UserCreateDTO to User")
+    public void testUserCreateDTOMapToUser() {
+
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        userCreateDTO.setUserName("testUser");
+        userCreateDTO.setPassword("testPassword");
+        userCreateDTO.setEmail("test@example.com");
+
+
+        User resultUser = UserMapper.userCreateDTOMapToUser(userCreateDTO);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        assertNotNull(resultUser);
+        assertEquals(userCreateDTO.getUserName(), resultUser.getUsername());
+        assertTrue(passwordEncoder.matches(userCreateDTO.getPassword(), resultUser.getPassword().substring(8)));
+        assertEquals(userCreateDTO.getEmail(), resultUser.getEmail());
+
+    }
+
+    @Test
+    @DisplayName("Test map UserCreateDTO to UserDTO")
+    public void testUserCreateDTOMapToUserDTO() {
+        UserCreateDTO userCreateDTO = new UserCreateDTO();
+        userCreateDTO.setUserName("testUser");
+        userCreateDTO.setPassword("testPassword");
+        userCreateDTO.setEmail("test@example.com");
+
+        UserDTO resultUserDTO = UserMapper.userCreateDTOMapToUserDTO(userCreateDTO);
+
+        assertNotNull(resultUserDTO);
+        assertEquals(userCreateDTO.getUserName(), resultUserDTO.getUserName());
+        assertEquals(userCreateDTO.getPassword(), resultUserDTO.getPassword());
+        assertEquals(userCreateDTO.getEmail(), resultUserDTO.getEmail());
+    }
 }

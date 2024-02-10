@@ -25,11 +25,4 @@ public class TaskCollectionMapper {
         return taskCollection;
     }
 
-    public static TaskCollectionDTO taskCollectionCreateDTOMapToTaskCollectionDTO(TaskCollectionCreateDTO taskCollectionCreateDTO) {
-        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
-        taskCollectionDTO.setName(taskCollectionCreateDTO.getName());
-        return taskCollectionDTO;
-    }
-
-
 }

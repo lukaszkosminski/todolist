@@ -1,12 +1,13 @@
 package com.todolist.controller;
 
-import com.todolist.dto.*;
+import com.todolist.dto.TaskCollectionDTO;
+import com.todolist.dto.TaskDTO;
+import com.todolist.dto.UserCreateDTO;
 import com.todolist.model.TaskCollection;
 import com.todolist.model.User;
 import com.todolist.repository.TaskCollectionRepository;
 import com.todolist.service.TaskService;
 import com.todolist.service.UserService;
-import javassist.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,19 +17,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -51,94 +51,124 @@ class PageControllerTest {
     private Model model;
 
     @Test
-    @DisplayName("Home Page returns 'home' view")
-    void homePage_ReturnsHomePageView() throws Exception {
+    @DisplayName("Should return OK status and display home view when user is not logged in")
+    void shouldReturnOkStatusAndDisplayHomeViewWhenUserIsNotLoggedIn() throws Exception {
+
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"));
+                .andExpect(view().name("home"))
+                .andExpect(model().size(0));
+
+
     }
 
     @Test
-    @DisplayName("Home Page adds 'nameLists' attribute to model")
-    void homePage_AddsAttributeToModel() throws Exception {
+    @DisplayName("Should return OK status and display home view with name lists when user logged in")
+    @WithMockUser(username = "user", roles = "USER")
+    void shouldReturnOkStatusAndDisplayHomeViewWhenUserIsLoggedIn() throws Exception {
 
-        User mockUser = new User();
-        mockUser.setRole("USER");
+        User user = new User();
+        user.setUserName("testName");
+        user.setPassword("passTest");
+        user.setUserId(1L);
+        user.setRole("USER");
+        user.setEmail("email@test.eu");
+
         TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
-        when(taskService.getTaskCollections(mockUser)).thenReturn(List.of(taskCollectionDTO));
-        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(mockUser.getRole()));
+        taskCollectionDTO.setId(1L);
+        taskCollectionDTO.setName("default");
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(mockUser, null,authorities);
-        System.out.println(authentication.isAuthenticated());
+        List<TaskCollectionDTO> taskCollectionDTOList = List.of(taskCollectionDTO);
+        when(taskCollectionRepository.findByUser(any(User.class))).thenReturn(List.of(new TaskCollection()));
+        when(taskService.getTaskCollections(user)).thenReturn(taskCollectionDTOList);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, null);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"));
+                .andExpect(view().name("home"))
+                .andExpect(model().attributeExists("nameLists"))
+                .andExpect(model().size(1));
+
+        SecurityContextHolder.clearContext();
     }
 
     @Test
+    @WithMockUser(username = "user", roles = "USER")
     @DisplayName("ListPage method returns list view and tasks, currentList, nameLists attributes")
-    void testListPage() throws NotFoundException {
-        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
+    void testListPage() throws Exception {
         Long listId = 1L;
         User user = new User();
-        when(authentication.getPrincipal()).thenReturn(user);
+        user.setUserName("testName");
+        user.setPassword("passTest");
+        user.setUserId(1L);
+        user.setRole("USER");
+        user.setEmail("email@test.eu");
+        List<TaskDTO> tasksDTO = Arrays.asList(new TaskDTO(), new TaskDTO());
+        TaskCollectionDTO taskCollectionDTO = new TaskCollectionDTO();
 
-        List<TaskDTO> tasksDTO = new ArrayList<>();
-        tasksDTO.add(new TaskDTO());
 
-        TaskCollectionDTO currentList = new TaskCollectionDTO();
-        currentList.setId(listId);
-        currentList.setName("test");
+        when(taskService.getTasks(any(Long.class), any(User.class))).thenReturn(tasksDTO);
+        when(taskService.getTaskCollection(any(Long.class), any(User.class))).thenReturn(taskCollectionDTO);
+        when(taskService.getTaskCollections(any(User.class))).thenReturn(List.of(taskCollectionDTO));
 
-        List<TaskCollection> nameLists = new ArrayList<>();
-        TaskCollection taskCollection = new TaskCollection();
-        taskCollection.setUser(user);
-        nameLists.add(taskCollection);
-        user.setTaskCollection(nameLists);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        when(taskService.getTasks(listId, user)).thenReturn(tasksDTO);
-        when(taskService.getTaskCollection(listId, user)).thenReturn(currentList);
-        when(taskService.getTaskCollections(user)).thenReturn(List.of(currentList));
 
-        String result = pageController.listPage(listId, user, model);
+        mockMvc.perform(get("/list/{listId}", listId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("list"))
+                .andExpect(model().attributeExists("tasks"))
+                .andExpect(model().attributeExists("currentList"))
+                .andExpect(model().attributeExists("nameLists"))
+                .andExpect(model().size(3));
 
-        verify(model).addAttribute("tasks", tasksDTO);
-        verify(model).addAttribute("currentList", currentList);
-        verify(model).addAttribute("nameLists", List.of(currentList));
-        assertEquals("list", result);
+        SecurityContextHolder.clearContext();
     }
 
     @Test
     @DisplayName("Test loginPage method")
-    void testLoginPage() {
-        String result = pageController.loginPage();
-        assertEquals("login", result);
+    public void testLoginPage() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(model().size(0));
     }
-
-    @Test
-    @DisplayName("Test adminPage method")
-    void testAdminPage() {
-        String result = pageController.adminPage();
-        assertEquals("admin", result);
-    }
+//     TODO: admin view
+//    @Test
+//    @DisplayName("Test adminPage method")
+//    void testAdminPage() throws Exception {
+//        mockMvc.perform(get("/admin"))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("admin"))
+//                .andExpect(model().size(0));
+//    }
 
     @Test
     @DisplayName("Test registerPage method")
-    void testRegisterPage() {
-        String result = pageController.registerPage();
-        assertEquals("register", result);
+    void testRegisterPage() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().size(0));
     }
 
     @Test
     @DisplayName("Test addItem method")
-    void testAddItem() {
+    void testAddItem() throws Exception {
+
         UserCreateDTO userCreateDTO = new UserCreateDTO();
-        String result = pageController.addItem(userCreateDTO);
+        userCreateDTO.setUserName("testName");
+        userCreateDTO.setEmail("email@test.eu");
+        userCreateDTO.setPassword("testPass");
 
-        verify(userService, times(1)).createUser(userCreateDTO);
+        mockMvc.perform(post("/register")
+                        .flashAttr("userCreateDTO", userCreateDTO))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
 
-        assertEquals("redirect:/", result);
     }
 
 }

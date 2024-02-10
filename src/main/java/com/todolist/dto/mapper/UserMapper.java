@@ -13,6 +13,8 @@ public class UserMapper {
         user.setUserName(userDTO.getUserName());
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
+        user.setRole(userDTO.getRole());
+        user.setUserId(userDTO.getUserId());
         return user;
     }
 
@@ -21,6 +23,8 @@ public class UserMapper {
         userDTO.setUserName(user.getUsername());
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
+        userDTO.setRole(user.getRole());
+        userDTO.setUserId(user.getUserId());
         return userDTO;
     }
 
@@ -31,10 +35,12 @@ public class UserMapper {
             userDTO.setUserName(user.getUsername());
             userDTO.setPassword(user.getPassword());
             userDTO.setEmail(user.getEmail());
+            userDTO.setUserId(user.getUserId());
             usersDTO.add(userDTO);
         }
         return usersDTO;
     }
+
     public static User userCreateDTOMapToUser(UserCreateDTO userCreateDTO) {
         User user = new User();
         user.setUserName(userCreateDTO.getUserName());
@@ -42,13 +48,7 @@ public class UserMapper {
         user.setEmail(userCreateDTO.getEmail());
         return user;
     }
-    public static UserCreateDTO userMapToUserCreateDTO(User user) {
-        UserCreateDTO userCreateDTO = new UserCreateDTO();
-        userCreateDTO.setUserName(user.getUsername());
-        userCreateDTO.setPassword(user.getPassword());
-        userCreateDTO.setEmail(user.getEmail());
-        return userCreateDTO;
-    }
+
     public static UserDTO userCreateDTOMapToUserDTO(UserCreateDTO userCreateDTO) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserName(userCreateDTO.getUserName());

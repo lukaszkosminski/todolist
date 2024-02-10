@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="UTF-8">
-        <title>ToDoList</title>
-        <link rel="stylesheet" href="/css/home.css">
-        <link rel="stylesheet" href="/css/sidebar.css">
-    </head>
-    <body>
-    <div class="sidebar">
-        <ul>
-            <li>
-                <a th:href="@{/}">
-                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
-                    <span class="text">Home</span>
-                </a>
-            </li>
-            <li sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/admin}">
-                    <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
-                    <span class="text">admin</span>
-                </a>
-            </li>
-            <li th:each="nameList : ${nameLists}">
-                <a th:href="@{'/list/' + ${nameList.id}}">
-                    <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
-                    <span class="text" th:text="${nameList.name}"></span>
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+</head>
+<body>
+<div class="sidebar">
+    <ul>
+        <li>
+            <a th:href="@{/}">
+                <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                <span class="text">Home</span>
+            </a>
+        </li>
+        <li sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin}">
+                <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
+                <span class="text">admin</span>
+            </a>
+        </li>
+        <li th:each="nameList : ${nameLists}">
+            <a th:href="@{'/list/' + ${nameList.id}}">
+                <span class="icon"><img src="/css/image/list.svg" width="30px"></span>
+                <span class="text" th:text="${nameList.name}"></span>
+            </a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+            <a class="addList">
+                <span class="icon"><img src="/css/image/plus.svg" width="30px"></span>
+                <span class="text">Add Collection Task</span>
+            </a>
+        </li>
+        <div class="bottom">
+            <li sec:authorize="isAuthenticated()">
+                <a href="#">
+                    <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
+                    <span class="text">Account</span>
                 </a>
             </li>
             <li sec:authorize="isAuthenticated()">
-                <a class="addList">
-                    <span class="icon"><img src="/css/image/plus.svg" width="30px"></span>
-                    <span class="text">Add Collection Task</span>
+                <a th:href="@{/logout}">
+                    <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
+                    <span class="text">Log Out</span>
                 </a>
             </li>
-            <div class="bottom">
-                <li sec:authorize="isAuthenticated()">
-                    <a href="#">
-                        <span class="icon"><img src="/css/image/account.svg" width="30px"></span>
-                        <span class="text">Account</span>
-                    </a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}">
-                        <span class="icon"><img src="/css/image/logout.svg" width="30px"></span>
-                        <span class="text">Log Out</span>
-                    </a>
-                </li>
-                <li sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}">
-                        <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
-                        <span class="text">Login</span>
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </div>
-    <main>
-        <header>
-            <div class="hello">
-                <h1>Welcome back</h1>
-            </div>
-        </header>
-        <nav>
-            <a>Completed</a>
-            <a>In-Progress</a>
-            <a>ToDo</a>
-        </nav>
-        <div class="content">
+            <li sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">
+                    <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
+                    <span class="text">Login</span>
+                </a>
+            </li>
         </div>
-    </main>
-    <script src="/javascript/addList.js"></script>
-    </body>
+    </ul>
+</div>
+<main>
+    <header>
+        <div class="hello">
+            <h1>Welcome back</h1>
+        </div>
+    </header>
+    <nav>
+        <a>Completed</a>
+        <a>In-Progress</a>
+        <a>ToDo</a>
+    </nav>
+    <div class="content">
+    </div>
+</main>
+<script src="/javascript/addList.js"></script>
+</body>
 </html>
