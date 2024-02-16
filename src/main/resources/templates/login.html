@@ -1,55 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
 <html lang="en" xmlns:th="http://www.thymeleaf.org"></html>
-<head>
-    <meta charset="UTF-8">
+
+<head><script src="css/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ToDoList</title>
-    <link rel="stylesheet" href="/css/sidebar.css">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/formAnimationPlaceholder.css">
+
+    <link href="css/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/sign-in.css" rel="stylesheet">
 </head>
-<body>
-<div class="sidebar">
-    <ul>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+    <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+            id="bd-theme"
+            type="button"
+            aria-expanded="false"
+            data-bs-toggle="dropdown"
+            aria-label="Toggle theme (auto)">
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
         <li>
-            <a th:href="@{/}">
-                <span class="icon"><img src="/css/image/home.svg" width="30px"></span>
-                <span class="text">Home</span>
-            </a>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+                Light
+                <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
         </li>
-        <div class="bottom">
-            <li>
-                <a th:href="@{/login}">
-                    <span class="icon"><img src="/css/image/login.svg" width="30px"></span>
-                    <span class="text">Login</span>
-                </a>
-            </li>
-        </div>
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+                Dark
+                <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+        </li>
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
+                Auto
+                <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+        </li>
     </ul>
 </div>
-<main>
-    <div class="content">
-        <form method="post" autocomplete="off">
-            <h1>Login</h1>
-            <div class="input-box">
-                <div class="taskinput">
-                    <input required="" type="text" name="username" class="input" autofocus>
-                    <label class="label">Username</label>
-                </div>
-                <img src="/css/image/user.svg" width="30px">
-            </div>
-            <div class="input-box">
-                <div class="taskinput">
-                    <input required="" type="password" name="password" class="input">
-                    <label class="label">Password</label>
-                </div>
-                <img src="/css/image/lock.svg" width="30px">
-            </div>
-            <button type="submit" class="btn">Login</button>
-            <div class="register-link">
-                <p>Don't have an account? <a th:href="@{/register}">Register</a></p>
-            </div>
-        </form>
-    </div>
+
+
+<main class="form-signin w-100 m-auto">
+    <form method="post" autocomplete="off">
+    <img class="mb-4" src="css/assets/brand/todo.svg" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="YourLogin" name="username">
+            <label for="floatingInput">Login</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <div class="form-check text-start my-3">
+            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                Remember me
+            </label>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        <div class="register-link">
+            <p class="mt-2 mb-1">Don't have an account? <a th:href="@{/register}">Register</a></p>
+        </div>
+        <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
+    </form>
 </main>
+<script src="css/assets/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
+
